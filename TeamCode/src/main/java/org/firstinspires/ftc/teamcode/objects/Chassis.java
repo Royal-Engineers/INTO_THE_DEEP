@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.robot.RobotHardware;
 public class Chassis {
     private DcMotor motorFrontRight, motorFrontLeft, motorBackLeft, motorBackRight;
 
-    public double vx, vy, w;
+    private double vx, vy, w;
     private double fr, fl, bl, br;
     private double power, theta, sin, cos;
     private double maxx;
@@ -24,6 +24,12 @@ public class Chassis {
 
         motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+    }
+
+    public void setMovement(double vx, double vy, double w) {
+        this.vx = vx;
+        this.vy = vy;
+        this.w = w;
     }
 
     public void update() {
