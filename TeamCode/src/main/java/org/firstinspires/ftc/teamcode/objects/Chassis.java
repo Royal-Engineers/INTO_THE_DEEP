@@ -25,13 +25,6 @@ public class Chassis {
         motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
     }
-
-    public void setMovement(double vx, double vy, double w) {
-        this.vx = vx;
-        this.vy = vy;
-        this.w = w;
-    }
-
     public void update() {
         power = Math.sqrt(Math.pow(vx, 2) + Math.pow(vy, 2));
         theta = Math.atan2(vy, vx) - Math.PI / 4;
@@ -55,5 +48,11 @@ public class Chassis {
         motorFrontLeft.setPower(fl);
         motorBackLeft.setPower(bl);
         motorBackRight.setPower(br);
+    }
+
+    public void setMovement(double vx, double vy, double w) {
+        this.vx = vx;
+        this.vy = vy;
+        this.w = w;
     }
 }
