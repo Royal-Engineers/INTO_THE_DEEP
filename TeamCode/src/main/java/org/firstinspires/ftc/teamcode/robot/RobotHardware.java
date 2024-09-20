@@ -14,6 +14,7 @@ public class RobotHardware {
     Odometry odometry;
 
     public DcMotor motorFrontRight, motorFrontLeft, motorBackRight, motorBackLeft;
+    public DcMotor motorExtendo;
 
 
 
@@ -30,6 +31,9 @@ public class RobotHardware {
         motorBackLeft = hardwareMap.get(DcMotor.class, "motorBackLeft");
 
         odometry.init(motorFrontRight, motorBackRight, motorFrontLeft);
+
+        // INTAKE
+        motorExtendo = hardwareMap.get(DcMotor.class, "motorExtendo");
 
     }
 
