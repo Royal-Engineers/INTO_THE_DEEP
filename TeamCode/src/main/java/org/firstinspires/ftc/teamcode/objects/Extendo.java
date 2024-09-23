@@ -13,7 +13,8 @@ public class Extendo {
     public ExtendoStates state, lastState;
 
     private final int INIT = 0;
-    private final int EXTENDED = 0;
+    private final int DEFAULT = 1000;
+    private int position = 1000;
 
 
     public Extendo(RobotHardware robot) {
@@ -37,7 +38,8 @@ public class Extendo {
                     break;
 
                 case EXTENDED:
-                    motor.setTargetPosition(EXTENDED);
+                    position = DEFAULT;
+                    motor.setTargetPosition(DEFAULT);
                     motor.setPower(1);
 
                     break;
@@ -45,5 +47,18 @@ public class Extendo {
         }
 
         lastState = state;
+    }
+
+    public void increasePosition(int value) {
+        position += value;
+
+        motor.setTargetPosition(position);
+        motor.setPower(1);
+    }
+    public void decreasePosition(int value) {
+        position -= value;
+
+        motor.setTargetPosition(position);
+        motor.setPower(1);
     }
 }
