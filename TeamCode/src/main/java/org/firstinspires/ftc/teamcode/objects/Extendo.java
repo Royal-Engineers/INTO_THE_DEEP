@@ -25,6 +25,7 @@ public class Extendo {
         state = ExtendoStates.INIT;
         lastState = ExtendoStates.INIT;
         motor.setTargetPosition(0);
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setPower(1);
     }
 

@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.teamcode.robot.StaticVariables.lastgamepad;
 import com.acmerobotics.dashboard.config.Config;
 
 import org.firstinspires.ftc.teamcode.objects.Extendo;
+import org.firstinspires.ftc.teamcode.objects.Lift;
 import org.firstinspires.ftc.teamcode.robot.AllObjects;
 @Config
 public class Commands extends AllObjects {
@@ -20,10 +21,17 @@ public class Commands extends AllObjects {
 
         if (gamepad.left_trigger > 0.1) {
             if (extendo.state == Extendo.ExtendoStates.EXTENDED) extendo.increasePosition((int)(gamepad.left_trigger * Ktrigger));
+            else if (lift.state != Lift.LiftStates.INIT) lift.increasePosition((int)(gamepad.left_trigger * Ktrigger));
         }
 
         if (gamepad.right_trigger > 0.1) {
             if (extendo.state == Extendo.ExtendoStates.EXTENDED) extendo.decreasePosition((int)(gamepad.right_trigger * Ktrigger));
+            else if (lift.state != Lift.LiftStates.INIT) lift.decreasePosition((int)(gamepad.left_trigger * Ktrigger));
+        }
+
+        if (gamepad.cross && !lastgamepad.cross) {
+            if (lift.state == Lift.LiftStates.INIT) lift.state = Lift.LiftStates.LOW_BASKET;
+            else lift.state = Lift.LiftStates.INIT;
         }
     }
 }
