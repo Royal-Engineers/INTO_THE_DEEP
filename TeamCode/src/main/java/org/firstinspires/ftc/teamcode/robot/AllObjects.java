@@ -21,8 +21,8 @@ public class AllObjects {
 
     public void update() {
         chassis.update();
-        extendo.update();
-        lift.update();
+        //extendo.update();
+        //lift.update();
         differential.update();
     }
 }

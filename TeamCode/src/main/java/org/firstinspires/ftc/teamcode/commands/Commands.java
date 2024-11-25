@@ -5,13 +5,28 @@ import static org.firstinspires.ftc.teamcode.robot.StaticVariables.lastgamepad;
 
 import com.acmerobotics.dashboard.config.Config;
 
+import org.firstinspires.ftc.teamcode.objects.Chassis;
+import org.firstinspires.ftc.teamcode.objects.Differential;
 import org.firstinspires.ftc.teamcode.objects.Extendo;
 import org.firstinspires.ftc.teamcode.objects.Lift;
 import org.firstinspires.ftc.teamcode.robot.AllObjects;
+import org.firstinspires.ftc.teamcode.robot.RobotHardware;
+
 @Config
-public class Commands extends AllObjects {
+public class Commands {
+    public Chassis chassis;
+    public Extendo extendo;
+    public Lift lift;
+    public Differential differential;
     private static double Ktrigger = 10;
     private static double differentialLinearAngle = 0, differentialRotationAngle = 0;
+
+    public void init(AllObjects objects) {
+        chassis = objects.chassis;
+        extendo = objects.extendo;
+        lift = objects.lift;
+        differential = objects.differential;
+    }
 
     public void update() {
         chassis.setMovement(gamepad.left_stick_x, -gamepad.left_stick_y, gamepad.right_stick_x);

@@ -16,7 +16,15 @@ public class TestTeleOp extends OpMode {
     @Override
     public void init() {
         StaticVariables.init(hardwareMap, telemetry, gamepad1);
-        robot.init(); objects.init(robot);
+
+        robot = new RobotHardware();
+        robot.init();
+
+        objects = new AllObjects();
+        objects.init(robot);
+
+        commands = new Commands();
+        commands.init(objects);
     }
 
     @Override
