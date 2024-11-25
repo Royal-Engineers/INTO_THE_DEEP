@@ -20,6 +20,7 @@ public class Extendo {
     public Extendo(RobotHardware robot) {
         motor = robot.motorExtendo;
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         state = ExtendoStates.INIT;

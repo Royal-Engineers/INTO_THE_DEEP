@@ -22,6 +22,11 @@ public class Chassis {
         this.motorBackLeft = robot.motorBackLeft;
         this.motorBackRight = robot.motorBackRight;
 
+        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         motorFrontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         motorBackLeft.setDirection(DcMotorSimple.Direction.REVERSE);
     }
@@ -34,8 +39,8 @@ public class Chassis {
 
         fr = power * sin / maxx - w;
         fl = power * cos / maxx + w;
-        br = power * sin / maxx + w;
-        bl = power * cos / maxx - w;
+        bl = power * sin / maxx + w;
+        br = power * cos / maxx - w;
 
         maxx = power + Math.abs(w);
 
