@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.teamcode.robot.StaticVariables.hardwareMap;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.lastgamepad;
 
 import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -14,9 +15,13 @@ public class RobotHardware {
     List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
 
     public DcMotor motorFrontRight, motorFrontLeft, motorBackRight, motorBackLeft;
-    public DcMotor motorExtendo, motorLift1, motorLift2;
+    public DcMotor motorExtendo, motorLiftLeft, motorLiftRight;
+    public DcMotor motorWinch;
 
-    public Servo differentialLeftServo, differentialRightServo;
+    public Servo servoDifferentialLeft, servoDifferentialRight, servoDifferentialClaw;
+    public Servo servoFirstClimbLeft, servoFirstClimbRight, servoSecondClimbLeft, servoSecondClimbRight;
+    public Servo servoV4BLeft, servoV4BRight, servoClawRotation, servoClawWrist;
+    public CRServo servoActiveIntake;
 
 
 
@@ -25,6 +30,8 @@ public class RobotHardware {
         for (LynxModule hub : allHubs) {
             hub.setBulkCachingMode(LynxModule.BulkCachingMode.MANUAL);
         }
+        // WINCH
+        motorWinch = hardwareMap.get(DcMotor.class, "motorWinch");
 
         // CHASSIS
         motorFrontRight = hardwareMap.get(DcMotor.class, "motorFrontRight");
@@ -35,13 +42,26 @@ public class RobotHardware {
         // INTAKE
         motorExtendo = hardwareMap.get(DcMotor.class, "motorExtendo");
 
+        servoV4BLeft = hardwareMap.get(Servo.class, "servoV4BLeft");
+        servoV4BRight = hardwareMap.get(Servo.class, "servoV4BRight");
+        servoClawRotation = hardwareMap.get(Servo.class, "servoClawRotation");
+        servoClawWrist = hardwareMap.get(Servo.class, "servoClawWrist");
+        servoActiveIntake = hardwareMap.get(CRServo.class, "servoActiveIntake");
+
         // OUTTAKE
-        motorLift1 = hardwareMap.get(DcMotor.class, "motorLift1");
-        motorLift2 = hardwareMap.get(DcMotor.class, "motorLift2");
+        motorLiftLeft = hardwareMap.get(DcMotor.class, "motorLiftLeft");
+        motorLiftRight = hardwareMap.get(DcMotor.class, "motorLiftRight");
 
         // DIFFERENTIAL
-        differentialLeftServo = hardwareMap.get(Servo.class, "differentialLeftServo");
-        differentialRightServo = hardwareMap.get(Servo.class, "differentialRightServo");
+        servoDifferentialLeft = hardwareMap.get(Servo.class, "servoDifferentialLeft");
+        servoDifferentialRight = hardwareMap.get(Servo.class, "servoDifferentialRight");
+        servoDifferentialClaw = hardwareMap.get(Servo.class, "servoDifferentialClaw");
+
+        // CLIMB
+        servoFirstClimbLeft = hardwareMap.get(Servo.class, "servoFirstClimbLeft");
+        servoFirstClimbRight = hardwareMap.get(Servo.class, "servoFirstClimbRight");
+        servoSecondClimbLeft = hardwareMap.get(Servo.class, "servoSecondClimbLeft");
+        servoSecondClimbRight = hardwareMap.get(Servo.class, "servoSecondClimbRight");
 
     }
 

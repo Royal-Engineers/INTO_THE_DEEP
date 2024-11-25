@@ -5,20 +5,20 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.robot.RobotHardware;
 
 public class Differential {
-    private Servo leftServo, rightServo;
+    private Servo servoLeft, servoRight, servoClaw;
     private double leftAngle = 0, rightAngle = 0;
 
     public Differential(RobotHardware robot) {
-        leftServo = robot.differentialLeftServo;
-        rightServo = robot.differentialRightServo;
+        servoLeft = robot.servoDifferentialLeft;
+        servoRight = robot.servoDifferentialRight;
 
-        leftServo.setPosition(0);
-        rightServo.setPosition(0);
+        servoLeft.setPosition(0);
+        servoRight.setPosition(0);
     }
 
     public void update() {
-        leftServo.setPosition(leftAngle);
-        rightServo.setPosition(rightAngle);
+        servoLeft.setPosition(leftAngle);
+        servoRight.setPosition(rightAngle);
     }
 
     public void updatePosition(double linearAngle, double rotationAngle) {
