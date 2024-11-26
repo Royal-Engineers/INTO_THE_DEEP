@@ -9,13 +9,14 @@ import org.firstinspires.ftc.teamcode.robot.RobotHardware;
 import org.firstinspires.ftc.teamcode.robot.StaticVariables;
 @TeleOp (name = "TestTeleOp")
 public class TestTeleOp extends OpMode {
+
     private RobotHardware robot;
     private AllObjects objects;
     private Commands commands;
 
     @Override
     public void init() {
-        StaticVariables.init(hardwareMap, telemetry, gamepad1);
+        StaticVariables.init(hardwareMap, telemetry, gamepad1, gamepad2);
 
         robot = new RobotHardware();
         robot.init();
