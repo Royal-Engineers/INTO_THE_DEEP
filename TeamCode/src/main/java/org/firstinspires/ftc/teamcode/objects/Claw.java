@@ -35,12 +35,13 @@ public class Claw {
 
     public enum WristState
     {
+        TRANSFER,
         SCAN,
         INTAKE,
         INIT;
     }
-    public double RotationScan = 0.29d, RotationIntake = 0.0d, RotationInit = 0.0d;
-    public double WristScan = 0.78d, WristIntake = 0.0d, WristInit = 0d;
+    public double RotationScan = 0.29d, RotationIntake = 0.0d, RotationInit = 0.01d, RotationTransfer = 0.01;
+    public double WristScan = 0.78d, WristIntake = 0.0d, WristInit = 0.3d, WristTransfer = 0.17;
     WristState m_WristState = WristState.INIT, m_LastWristState = WristState.INIT;
 
     public void setWristState(WristState state)
@@ -96,6 +97,12 @@ public class Claw {
                 RotationPos = RotationScan;
                 WristPos = WristScan;
                 break;
+
+            case TRANSFER:
+                RotationPos = RotationTransfer;
+                WristPos = WristTransfer;
+                break;
+
         }
         servoClawRotation.setPosition(RotationPos);
         servoClawWrist.setPosition(WristPos);

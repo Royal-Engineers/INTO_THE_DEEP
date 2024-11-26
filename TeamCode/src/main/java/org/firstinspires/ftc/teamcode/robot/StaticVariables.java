@@ -8,7 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public abstract class StaticVariables {
     public static HardwareMap hardwareMap;
     public static Telemetry telemetry;
-    public static Gamepad gamepad, lastgamepad = new Gamepad(), m_gamepad2, lastgamepad2 = new Gamepad();
+    public static Gamepad gamepad, lastgamepad = new Gamepad(), gamepad2, lastgamepad2 = new Gamepad();
 
 
     public static double robotX, robotY, robotH;
@@ -17,7 +17,7 @@ public abstract class StaticVariables {
         hardwareMap = hm;
         telemetry = tm;
         gamepad = gm;
-        m_gamepad2 = gm2;
+        gamepad2 = gm2;
         robotX = 0; robotY = 0; robotH = Math.PI / 2;
     }
 }

@@ -27,8 +27,8 @@ public class Commands {
 
     private static double Ktrigger = 2;
     public static double v4bPosition = 0;
-    public static double clawWristPosition = 0;
-    public static double clawRotationPosition = 0;
+    public static double clawWristPosition = 0.17;
+    public static double clawRotationPosition = 0.01;
 
     public void init(AllObjects objects) {
         chassis = objects.chassis;
@@ -66,7 +66,12 @@ public class Commands {
             transfer.initiate = true;
         }
 
+        if (gamepad.circle && !lastgamepad.circle) {
+            differential.setState(Differential.DifferentialStates.INIT);
+        }
+
         claw.updatePosition(clawWristPosition, clawRotationPosition);
+        v4b.setV4BPos(v4bPosition);
 
         transfer.update();
     }

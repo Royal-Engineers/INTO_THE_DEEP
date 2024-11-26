@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.robot;
 
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.gamepad;
+import static org.firstinspires.ftc.teamcode.robot.StaticVariables.gamepad2;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.hardwareMap;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.lastgamepad;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.lastgamepad2;
-import static org.firstinspires.ftc.teamcode.robot.StaticVariables.m_gamepad2;
 
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -76,7 +76,7 @@ public class RobotHardware {
         }
 
         lastgamepad.copy(gamepad);
-        lastgamepad2.copy(m_gamepad2);
+        lastgamepad2.copy(gamepad2);
     }
 
 }
