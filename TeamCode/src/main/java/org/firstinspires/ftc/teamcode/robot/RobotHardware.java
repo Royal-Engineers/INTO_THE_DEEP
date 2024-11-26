@@ -9,6 +9,7 @@ import static org.firstinspires.ftc.teamcode.robot.StaticVariables.m_gamepad2;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class RobotHardware {
     public Servo servoV4BLeft, servoV4BRight, servoClawRotation, servoClawWrist;
     public CRServo servoActiveIntake;
 
+    public DigitalChannel transferDetection;
 
 
     public void init() {
@@ -58,6 +60,7 @@ public class RobotHardware {
         servoDifferentialLeft = hardwareMap.get(Servo.class, "servoDifferentialLeft");
         servoDifferentialRight = hardwareMap.get(Servo.class, "servoDifferentialRight");
         servoDifferentialClaw = hardwareMap.get(Servo.class, "servoDifferentialClaw");
+        transferDetection = hardwareMap.get(DigitalChannel.class, "transferDetection");
 
         // CLIMB
         servoFirstClimbLeft = hardwareMap.get(Servo.class, "servoFirstClimbLeft");

@@ -108,6 +108,9 @@ public class Lift {
         }
 
         lastState = state;
+
+        motorDown.setPower(1);
+        motorUp.setPower(1);
     }
 
     public void increasePosition(int value) {

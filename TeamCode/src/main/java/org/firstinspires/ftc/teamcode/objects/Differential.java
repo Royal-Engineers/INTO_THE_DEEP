@@ -10,30 +10,75 @@ public class Differential {
     public enum DifferentialStates {
         INIT,
         PICK_UP,
+        INTERMEDIATE,
         RELEASE;
     }
+
+    public DifferentialStates state, lastState;
     private double leftAngle = 0, rightAngle = 0, clawPosition = 0;
+
+    private final double LINEAR_ANGLE_INIT = 0.03;
+    private final double LINEAR_ANGLE_INTERMEDIATE = 0.53;
+    private final double LINEAR_ANGLE_RELEASE = 0.53;
+
+    private final double ROTATION_ANGLE_INIT = 0;
+    private final double ROTATION_ANGLE_INTERMEDIATE = 0;
+    private final double ROTATION_ANGLE_RELEASE = 0.28;
+
+    private final double CLAW_OPEN = 0.5;
+    private final double CLAW_CLOSED = 0.8;
+
+    public void setServoPosition(double linearAngle, double rotationAngle) {
+        servoLeft.setPosition(linearAngle + rotationAngle);
+        servoRight.setPosition(linearAngle - rotationAngle);
+    }
 
     public Differential(RobotHardware robot) {
         servoLeft = robot.servoDifferentialLeft;
         servoRight = robot.servoDifferentialRight;
         servoClaw = robot.servoDifferentialClaw;
 
-        servoLeft.setPosition(0);
-        servoRight.setPosition(0);
-        servoClaw.setPosition(0.5);
+        state = DifferentialStates.INIT;
+        lastState = DifferentialStates.INIT;
+
+        setServoPosition(LINEAR_ANGLE_INIT, ROTATION_ANGLE_INIT);
+        servoClaw.setPosition(CLAW_OPEN);
     }
 
     public void update() {
-        servoLeft.setPosition(leftAngle);
-        servoRight.setPosition(rightAngle);
-        servoClaw.setPosition(clawPosition);
+
+        if (state != lastState) {
+            switch (state) {
+                case INIT:
+                    setServoPosition(LINEAR_ANGLE_INIT, ROTATION_ANGLE_INIT);
+                    servoClaw.setPosition(CLAW_OPEN);
+
+                    break;
+
+                case PICK_UP:
+                    servoClaw.setPosition(CLAW_CLOSED);
+
+                    break;
+
+                case INTERMEDIATE:
+                    setServoPosition(LINEAR_ANGLE_INTERMEDIATE, ROTATION_ANGLE_INTERMEDIATE);
+                    servoClaw.setPosition(CLAW_CLOSED);
+
+                    break;
+
+                case RELEASE:
+                    setServoPosition(LINEAR_ANGLE_RELEASE, ROTATION_ANGLE_RELEASE);
+                    servoClaw.setPosition(CLAW_CLOSED);
+
+                    break;
+            }
+        }
+
+        lastState = state;
     }
 
-    public void updatePosition(double linearAngle, double rotationAngle, double clawPosition) {
-        leftAngle = linearAngle + rotationAngle;
-        rightAngle = linearAngle - rotationAngle;
-        this.clawPosition = clawPosition;
+    public void setState(DifferentialStates state) {
+        this.state = state;
     }
 
 }

@@ -18,14 +18,16 @@ public class Commands {
     public Extendo extendo;
     public Lift lift;
     public Differential differential;
+    public Transfer transfer;
     private static double Ktrigger = 10;
-    public static double differentialLinearAngle = 0, differentialRotationAngle = 0, differentialClaw = 0;
 
     public void init(AllObjects objects) {
         chassis = objects.chassis;
         extendo = objects.extendo;
         lift = objects.lift;
         differential = objects.differential;
+
+        transfer = new Transfer(differential);
     }
 
     public void update() {
@@ -37,20 +39,22 @@ public class Commands {
         }
 
         if (gamepad.left_trigger > 0.1) {
-            if (extendo.state == Extendo.ExtendoStates.EXTENDED) extendo.increasePosition((int)(gamepad.left_trigger * Ktrigger));
-            else if (lift.state != Lift.LiftStates.INIT) lift.increasePosition((int)(gamepad.left_trigger * Ktrigger));
+            lift.increasePosition((int)(gamepad.left_trigger * Ktrigger));
         }
 
         if (gamepad.right_trigger > 0.1) {
-            if (extendo.state == Extendo.ExtendoStates.EXTENDED) extendo.decreasePosition((int)(gamepad.right_trigger * Ktrigger));
-            else if (lift.state != Lift.LiftStates.INIT) lift.decreasePosition((int)(gamepad.left_trigger * Ktrigger));
+            lift.decreasePosition((int)(gamepad.left_trigger * Ktrigger));
         }
 
         if (gamepad.cross && !lastgamepad.cross) {
-            if (lift.state == Lift.LiftStates.INIT) lift.state = Lift.LiftStates.LOW_BASKET;
+            if (lift.state == Lift.LiftStates.INIT) lift.state = Lift.LiftStates.LOW_CHAMBER;
             else lift.state = Lift.LiftStates.INIT;
         }
 
-        differential.updatePosition(differentialLinearAngle, differentialRotationAngle, differentialClaw);
+        if (gamepad.square && !lastgamepad.square) {
+            transfer.initiate = true;
+        }
+
+        transfer.update();
     }
 }
