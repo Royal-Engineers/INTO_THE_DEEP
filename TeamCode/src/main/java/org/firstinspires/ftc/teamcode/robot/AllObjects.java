@@ -29,7 +29,7 @@ public class AllObjects {
     public void update() {
         chassis.update();
         //extendo.update();
-        //lift.update();
+        lift.update();
         differential.update();
         v4b.update();
         claw.Update();

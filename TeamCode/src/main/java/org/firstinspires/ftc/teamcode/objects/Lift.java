@@ -6,13 +6,13 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.teamcode.robot.RobotHardware;
 
 public class Lift {
-    private DcMotor motorLeft, motorRight;
+    private DcMotor motorUp, motorDown;
     public enum LiftStates {
         INIT,
         LOW_BASKET,
         HIGH_BASKET,
         LOW_CHAMBER,
-        HIGH_CHAMBER,
+        HIGH_CHAMBER;
     }
     public LiftStates state, lastState;
 
@@ -24,26 +24,26 @@ public class Lift {
     private int position;
 
     public Lift(RobotHardware robot) {
-        motorLeft = robot.motorLiftLeft;
-        motorRight = robot.motorLiftRight;
+        motorUp = robot.motorLiftUp;
+        motorDown = robot.motorLiftDown;
 
-        motorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorUp.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorUp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorUp.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        motorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorRight.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorDown.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorDown.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorDown.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorDown.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        motorLeft.setTargetPosition(INIT);
-        motorRight.setTargetPosition(INIT);
+        motorUp.setTargetPosition(INIT);
+        motorDown.setTargetPosition(INIT);
 
-        motorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorUp.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorDown.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        motorLeft.setPower(1);
-        motorRight.setPower(1);
+        motorUp.setPower(1);
+        motorDown.setPower(1);
 
         state = LiftStates.INIT;
         lastState = LiftStates.INIT;
@@ -55,53 +55,53 @@ public class Lift {
         if (lastState != state) {
             switch (state) {
                 case INIT:
-                    motorLeft.setTargetPosition(INIT);
-                    motorRight.setTargetPosition(INIT);
+                    motorUp.setTargetPosition(INIT);
+                    motorDown.setTargetPosition(INIT);
 
                     position = INIT;
 
-                    motorLeft.setPower(1);
-                    motorRight.setPower(1);
+                    motorUp.setPower(1);
+                    motorDown.setPower(1);
                     break;
 
                 case LOW_BASKET:
-                    motorLeft.setTargetPosition(LOW_BASKET);
-                    motorRight.setTargetPosition(LOW_BASKET);
+                    motorUp.setTargetPosition(LOW_BASKET);
+                    motorDown.setTargetPosition(LOW_BASKET);
 
                     position = LOW_BASKET;
 
-                    motorLeft.setPower(1);
-                    motorRight.setPower(1);
+                    motorUp.setPower(1);
+                    motorDown.setPower(1);
                     break;
 
                 case HIGH_BASKET:
-                    motorLeft.setTargetPosition(HIGH_BASKET);
-                    motorRight.setTargetPosition(HIGH_BASKET);
+                    motorUp.setTargetPosition(HIGH_BASKET);
+                    motorDown.setTargetPosition(HIGH_BASKET);
 
                     position = HIGH_BASKET;
 
-                    motorLeft.setPower(1);
-                    motorRight.setPower(1);
+                    motorUp.setPower(1);
+                    motorDown.setPower(1);
                     break;
 
                 case LOW_CHAMBER:
-                    motorLeft.setTargetPosition(LOW_CHAMBER);
-                    motorRight.setTargetPosition(LOW_CHAMBER);
+                    motorUp.setTargetPosition(LOW_CHAMBER);
+                    motorDown.setTargetPosition(LOW_CHAMBER);
 
                     position = LOW_CHAMBER;
 
-                    motorLeft.setPower(1);
-                    motorRight.setPower(1);
+                    motorUp.setPower(1);
+                    motorDown.setPower(1);
                     break;
 
                 case HIGH_CHAMBER:
-                    motorLeft.setTargetPosition(HIGH_CHAMBER);
-                    motorRight.setTargetPosition(HIGH_CHAMBER);
+                    motorUp.setTargetPosition(HIGH_CHAMBER);
+                    motorDown.setTargetPosition(HIGH_CHAMBER);
 
                     position = HIGH_CHAMBER;
 
-                    motorLeft.setPower(1);
-                    motorRight.setPower(1);
+                    motorUp.setPower(1);
+                    motorDown.setPower(1);
                     break;
 
             }
@@ -113,21 +113,21 @@ public class Lift {
     public void increasePosition(int value) {
         position += value;
 
-        motorLeft.setTargetPosition(position);
-        motorRight.setTargetPosition(position);
+        motorUp.setTargetPosition(position);
+        motorDown.setTargetPosition(position);
 
-        motorLeft.setPower(1);
-        motorRight.setPower(1);
+        motorUp.setPower(1);
+        motorDown.setPower(1);
     }
 
     public void decreasePosition(int value) {
         position -= value;
 
-        motorLeft.setTargetPosition(position);
-        motorRight.setTargetPosition(position);
+        motorUp.setTargetPosition(position);
+        motorDown.setTargetPosition(position);
 
-        motorLeft.setPower(1);
-        motorRight.setPower(1);
+        motorUp.setPower(1);
+        motorDown.setPower(1);
     }
 
 }

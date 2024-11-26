@@ -17,7 +17,7 @@ public class RobotHardware {
     List<LynxModule> allHubs = hardwareMap.getAll(LynxModule.class);
 
     public DcMotor motorFrontRight, motorFrontLeft, motorBackRight, motorBackLeft;
-    public DcMotor motorExtendo, motorLiftLeft, motorLiftRight;
+    public DcMotor motorExtendo, motorLiftUp, motorLiftDown;
     public DcMotor motorWinch;
 
     public Servo servoDifferentialLeft, servoDifferentialRight, servoDifferentialClaw;
@@ -51,8 +51,8 @@ public class RobotHardware {
         servoActiveIntake = hardwareMap.get(CRServo.class, "servoActiveIntake");
 
         // OUTTAKE
-        motorLiftLeft = hardwareMap.get(DcMotor.class, "motorLiftLeft");
-        motorLiftRight = hardwareMap.get(DcMotor.class, "motorLiftRight");
+        motorLiftUp = hardwareMap.get(DcMotor.class, "motorLiftUp");
+        motorLiftDown = hardwareMap.get(DcMotor.class, "motorLiftDown");
 
         // DIFFERENTIAL
         servoDifferentialLeft = hardwareMap.get(Servo.class, "servoDifferentialLeft");
