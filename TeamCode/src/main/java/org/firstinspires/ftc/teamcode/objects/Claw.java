@@ -40,7 +40,7 @@ public class Claw {
         INIT;
     }
     public double RotationScan = 0.29d, RotationIntake = 0.0d, RotationInit = 0.0d;
-    public double WristScan = 0.78d, WristIntake = 0.0d, WristInit = 0.1d;
+    public double WristScan = 0.78d, WristIntake = 0.0d, WristInit = 0d;
     WristState m_WristState = WristState.INIT, m_LastWristState = WristState.INIT;
 
     public void setWristState(WristState state)

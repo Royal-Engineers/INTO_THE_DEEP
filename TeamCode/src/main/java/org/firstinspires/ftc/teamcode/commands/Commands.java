@@ -36,7 +36,7 @@ public class Commands {
         lift = objects.lift;
         differential = objects.differential;
         v4b = objects.v4b;
-        //claw = objects.claw;
+        claw = objects.claw;
 
         transfer = new Transfer(differential);
     }
@@ -66,7 +66,7 @@ public class Commands {
             transfer.initiate = true;
         }
 
-        //claw.updatePosition(clawWristPosition, clawRotationPosition);
+        claw.updatePosition(clawWristPosition, clawRotationPosition);
 
         transfer.update();
     }

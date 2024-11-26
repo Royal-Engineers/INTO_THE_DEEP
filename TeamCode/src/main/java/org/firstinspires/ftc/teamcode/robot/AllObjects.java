@@ -21,7 +21,7 @@ public class AllObjects {
         lift = new Lift(robot);
         differential = new Differential(robot);
         v4b = new Virtual4Bar(robot);
-        //claw = new Claw(robot);
+        claw = new Claw(robot);
     }
 
     public void update() {
@@ -30,6 +30,6 @@ public class AllObjects {
         lift.update();
         differential.update();
         v4b.update();
-        //claw.Update();
+        claw.Update();
     }
 }
