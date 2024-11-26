@@ -28,7 +28,7 @@ public class Virtual4Bar {
     }
     private V4BStates state = V4BStates.INIT, lastState = V4BStates.INIT;
 
-    public double InitPos = 0, ScanningPos = 0.16, PickupPos = 0.24;
+    public double InitPos = 0.01, ScanningPos = 0.16, PickupPos = 0.24;
 
     public void setV4BPos(double pos)
     {
