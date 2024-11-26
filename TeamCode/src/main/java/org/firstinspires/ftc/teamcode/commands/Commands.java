@@ -6,9 +6,11 @@ import static org.firstinspires.ftc.teamcode.robot.StaticVariables.lastgamepad;
 import com.acmerobotics.dashboard.config.Config;
 
 import org.firstinspires.ftc.teamcode.objects.Chassis;
+import org.firstinspires.ftc.teamcode.objects.Claw;
 import org.firstinspires.ftc.teamcode.objects.Differential;
 import org.firstinspires.ftc.teamcode.objects.Extendo;
 import org.firstinspires.ftc.teamcode.objects.Lift;
+import org.firstinspires.ftc.teamcode.objects.Virtual4Bar;
 import org.firstinspires.ftc.teamcode.robot.AllObjects;
 import org.firstinspires.ftc.teamcode.robot.RobotHardware;
 
@@ -18,14 +20,23 @@ public class Commands {
     public Extendo extendo;
     public Lift lift;
     public Differential differential;
+    public Virtual4Bar v4b;
+    public Claw claw;
+
     public Transfer transfer;
-    private static double Ktrigger = 10;
+
+    private static double Ktrigger = 2;
+    public static double v4bPosition = 0;
+    public static double clawWristPosition = 0;
+    public static double clawRotationPosition = 0;
 
     public void init(AllObjects objects) {
         chassis = objects.chassis;
         extendo = objects.extendo;
         lift = objects.lift;
         differential = objects.differential;
+        v4b = objects.v4b;
+        //claw = objects.claw;
 
         transfer = new Transfer(differential);
     }
@@ -39,11 +50,11 @@ public class Commands {
         }
 
         if (gamepad.left_trigger > 0.1) {
-            lift.increasePosition((int)(gamepad.left_trigger * Ktrigger));
+            lift.decreasePosition((int)(gamepad.left_trigger * Ktrigger));
         }
 
         if (gamepad.right_trigger > 0.1) {
-            lift.decreasePosition((int)(gamepad.left_trigger * Ktrigger));
+            lift.increasePosition((int)(gamepad.right_trigger * Ktrigger));
         }
 
         if (gamepad.cross && !lastgamepad.cross) {
@@ -54,6 +65,8 @@ public class Commands {
         if (gamepad.square && !lastgamepad.square) {
             transfer.initiate = true;
         }
+
+        //claw.updatePosition(clawWristPosition, clawRotationPosition);
 
         transfer.update();
     }

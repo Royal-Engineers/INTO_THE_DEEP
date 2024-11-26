@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import static org.firstinspires.ftc.teamcode.robot.StaticVariables.init;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.telemetry;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -23,6 +24,7 @@ public class Transfer {
     public TransferStates state, nextState;
     private ElapsedTime timer;
     private double waitingTime;
+    private boolean ok = false;
 
     public Transfer(Differential differential) {
         this.differential = differential;
@@ -34,6 +36,13 @@ public class Transfer {
     }
 
     public void update() {
+        if (differential.transferDetection.getState())
+            ok = false;
+
+        if (!differential.transferDetection.getState() && !ok) {
+            initiate = true; ok = true;
+        }
+
         if (initiate) {
             state = TransferStates.INIT;
             initiate = false;

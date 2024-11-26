@@ -12,17 +12,15 @@ public class AllObjects {
     public Extendo extendo;
     public Lift lift;
     public Differential differential;
-
-    //public Claw claw;
-
-    //public Virtual4Bar v4b;
+    public Claw claw;
+    public Virtual4Bar v4b;
 
     public void init(RobotHardware robot) {
         chassis = new Chassis(robot);
         extendo = new Extendo(robot);
         lift = new Lift(robot);
         differential = new Differential(robot);
-        //v4b = new Virtual4Bar(robot);
+        v4b = new Virtual4Bar(robot);
         //claw = new Claw(robot);
     }
 
@@ -31,7 +29,7 @@ public class AllObjects {
         //extendo.update();
         lift.update();
         differential.update();
-        //v4b.update();
+        v4b.update();
         //claw.Update();
     }
 }

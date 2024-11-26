@@ -1,9 +1,5 @@
 package org.firstinspires.ftc.teamcode.objects;
 
-import static org.firstinspires.ftc.teamcode.robot.StaticVariables.gamepad;
-import static org.firstinspires.ftc.teamcode.robot.StaticVariables.lastgamepad;
-import static org.firstinspires.ftc.teamcode.robot.StaticVariables.telemetry;
-
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -19,8 +15,9 @@ public class Claw {
         servoClawRotation = robot.servoClawRotation;
         servoClawWrist = robot.servoClawWrist;
         servoActiveIntake = robot.servoActiveIntake;
-        servoClawRotation.setPosition(RotationIdle);
-        servoClawWrist.setPosition(WristIdle);
+
+        servoClawRotation.setPosition(RotationInit);
+        servoClawWrist.setPosition(WristInit);
     }
 
     public enum IntakeState
@@ -31,24 +28,20 @@ public class Claw {
     }
     IntakeState m_IntakeState = IntakeState.Idle, m_LastIntakeState = IntakeState.Idle;
     private double IntakePower = 1.0d, OutakePower = -1.0d, IdlePower = 0.0d;
-    public  void setIntakeState(IntakeState state)
+    public void setIntakeState(IntakeState state)
     {
         m_IntakeState = state;
     }
 
     public enum WristState
     {
-        Transfer,
-
-        Scan,
-
-        Intake,
-
-        Idle
+        SCAN,
+        INTAKE,
+        INIT;
     }
-    public double RotationTransfer = 0.0d, RotationScan = 0.29d, RotationIntake = 0.0d, RotationIdle = 0.0d;
-    public double WristTransfer = 0.0d, WristScan = 0.78d, WristIntake = 0.0d, WristIdle = 0.0d;
-    WristState m_WristState = WristState.Idle, m_LastWristState = WristState.Idle;
+    public double RotationScan = 0.29d, RotationIntake = 0.0d, RotationInit = 0.0d;
+    public double WristScan = 0.78d, WristIntake = 0.0d, WristInit = 0.1d;
+    WristState m_WristState = WristState.INIT, m_LastWristState = WristState.INIT;
 
     public void setWristState(WristState state)
     {
@@ -57,24 +50,6 @@ public class Claw {
 
     public void Update()
     {
-        telemetry.addData("WristPos", servoClawWrist.getPosition());
-        telemetry.addData("RotationPos", servoClawRotation.getPosition());
-        if ( gamepad.dpad_down && !lastgamepad.dpad_down )
-        {
-            servoClawWrist.setPosition(servoClawWrist.getPosition() + 0.01);
-        }
-        if ( gamepad.dpad_up && !lastgamepad.dpad_up )
-        {
-            servoClawWrist.setPosition(servoClawWrist.getPosition() - 0.01);
-        }
-        if ( gamepad.dpad_left && !lastgamepad.dpad_left )
-        {
-            servoClawRotation.setPosition(servoClawRotation.getPosition() + 0.01);
-        }
-        if ( gamepad.dpad_right && !lastgamepad.dpad_right )
-        {
-            servoClawRotation.setPosition(servoClawRotation.getPosition() - 0.01);
-        }
         UpdateIntake();
         UpdateWrist();
     }
@@ -103,32 +78,33 @@ public class Claw {
 
     private void UpdateWrist()
     {
-        if ( m_WristState == m_LastWristState )
+        /*if ( m_WristState == m_LastWristState )
             return;
         double RotationPos = 0.0d, WristPos = 0.0d;
 
         switch(m_WristState )
         {
-            case Idle:
+            case INIT:
                 RotationPos = RotationIdle;
                 WristPos = WristIdle;
                 break;
-            case Intake:
+            case INTAKE:
                 RotationPos = RotationIntake;
                 WristPos = WristIntake;
                 break;
-            case Transfer:
-                RotationPos = RotationTransfer;
-                WristPos = WristTransfer;
-                break;
-            case Scan:
+            case SCAN:
                 RotationPos = RotationScan;
                 WristPos = WristScan;
                 break;
         }
         servoClawRotation.setPosition(RotationPos);
         servoClawWrist.setPosition(WristPos);
-        m_LastWristState = m_WristState;
+        m_LastWristState = m_WristState;*/
+    }
+
+    public void updatePosition(double wrist, double rotation) {
+        servoClawWrist.setPosition(wrist);
+        servoClawRotation.setPosition(rotation);
     }
 
 }

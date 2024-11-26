@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.objects;
 
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.robot.RobotHardware;
 
 public class Differential {
     private Servo servoLeft, servoRight, servoClaw;
+    public DigitalChannel transferDetection;
 
     public enum DifferentialStates {
         INIT,
@@ -37,6 +39,9 @@ public class Differential {
         servoLeft = robot.servoDifferentialLeft;
         servoRight = robot.servoDifferentialRight;
         servoClaw = robot.servoDifferentialClaw;
+        transferDetection = robot.transferDetection;
+
+        transferDetection.setMode(DigitalChannel.Mode.INPUT);
 
         state = DifferentialStates.INIT;
         lastState = DifferentialStates.INIT;
