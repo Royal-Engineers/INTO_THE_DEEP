@@ -17,6 +17,7 @@ public class Differential {
     }
 
     public DifferentialStates state, lastState;
+    public boolean clawState = false; // false means open
     private double leftAngle = 0, rightAngle = 0, clawPosition = 0;
 
     private final double LINEAR_ANGLE_INIT = 0.03;
@@ -27,7 +28,7 @@ public class Differential {
     private final double ROTATION_ANGLE_INTERMEDIATE = 0;
     private final double ROTATION_ANGLE_RELEASE = 0.28;
 
-    private final double CLAW_OPEN = 0.5;
+    private final double CLAW_OPEN = 0.55;
     private final double CLAW_CLOSED = 0.8;
 
     public void setServoPosition(double linearAngle, double rotationAngle) {
@@ -56,24 +57,22 @@ public class Differential {
             switch (state) {
                 case INIT:
                     setServoPosition(LINEAR_ANGLE_INIT, ROTATION_ANGLE_INIT);
-                    servoClaw.setPosition(CLAW_OPEN);
+                    openClaw();
 
                     break;
 
                 case PICK_UP:
-                    servoClaw.setPosition(CLAW_CLOSED);
+                    closeClaw();
 
                     break;
 
                 case INTERMEDIATE:
                     setServoPosition(LINEAR_ANGLE_INTERMEDIATE, ROTATION_ANGLE_INTERMEDIATE);
-                    servoClaw.setPosition(CLAW_CLOSED);
 
                     break;
 
                 case RELEASE:
                     setServoPosition(LINEAR_ANGLE_RELEASE, ROTATION_ANGLE_RELEASE);
-                    servoClaw.setPosition(CLAW_CLOSED);
 
                     break;
             }
@@ -84,6 +83,15 @@ public class Differential {
 
     public void setState(DifferentialStates state) {
         this.state = state;
+    }
+
+    public void closeClaw() {
+        servoClaw.setPosition(CLAW_CLOSED);
+        clawState = true;
+    }
+    public void openClaw() {
+        servoClaw.setPosition(CLAW_OPEN);
+        clawState = false;
     }
 
 }
