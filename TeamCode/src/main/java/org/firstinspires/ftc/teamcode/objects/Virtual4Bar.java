@@ -23,12 +23,12 @@ public class Virtual4Bar {
     public enum V4BStates
     {
         INIT,
-        Scanning,
-        Pickup,
+        SCANNING,
+        PICK_UP,
     }
     private V4BStates state = V4BStates.INIT, lastState = V4BStates.INIT;
 
-    public double InitPos = 0.03, ScanningPos = 0.16, PickupPos = 0.24;
+    public double InitPos = 0.03, ScanningPos = 0.18, PickupPos = 0.24;
 
     public void setV4BPos(double pos)
     {
@@ -52,10 +52,10 @@ public class Virtual4Bar {
             case INIT:
                 targetPosition = InitPos;
                 break;
-            case Pickup:
+            case PICK_UP:
                 targetPosition = PickupPos;
                 break;
-            case Scanning:
+            case SCANNING:
                 targetPosition = ScanningPos;
                 break;
         }

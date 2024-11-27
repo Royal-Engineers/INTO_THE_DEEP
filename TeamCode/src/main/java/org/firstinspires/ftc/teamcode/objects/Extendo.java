@@ -5,16 +5,15 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.teamcode.robot.RobotHardware;
 
 public class Extendo {
-    private DcMotor motor;
+    public DcMotor motor;
     public enum ExtendoStates {
         INIT,
         EXTENDED;
     }
-    public ExtendoStates state, lastState;
+    private ExtendoStates state, lastState;
 
     private final int INIT = 0;
-    private final int DEFAULT = 1000;
-    private int position = 1000;
+    private final int EXTENDED = 160;
 
 
     public Extendo(RobotHardware robot) {
@@ -40,8 +39,7 @@ public class Extendo {
                     break;
 
                 case EXTENDED:
-                    position = DEFAULT;
-                    motor.setTargetPosition(DEFAULT);
+                    motor.setTargetPosition(EXTENDED);
                     motor.setPower(1);
 
                     break;
@@ -51,16 +49,7 @@ public class Extendo {
         lastState = state;
     }
 
-    public void increasePosition(int value) {
-        position += value;
-
-        motor.setTargetPosition(position);
-        motor.setPower(1);
-    }
-    public void decreasePosition(int value) {
-        position -= value;
-
-        motor.setTargetPosition(position);
-        motor.setPower(1);
+    public void setState(ExtendoStates state) {
+        this.state = state;
     }
 }

@@ -7,14 +7,17 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.objects.Claw;
 import org.firstinspires.ftc.teamcode.objects.Differential;
+import org.firstinspires.ftc.teamcode.objects.Extendo;
 import org.firstinspires.ftc.teamcode.objects.Virtual4Bar;
+import org.firstinspires.ftc.teamcode.robot.AllObjects;
 import org.firstinspires.ftc.teamcode.robot.RobotHardware;
 
 public class Transfer {
+    private Extendo extendo;
     private Differential differential;
     private Claw claw;
     private Virtual4Bar v4b;
-    public boolean initiate = false;
+    public static boolean initiateTransfer = false;
 
     public enum TransferStates {
         WAITING,
@@ -28,12 +31,12 @@ public class Transfer {
     public TransferStates state, nextState;
     private ElapsedTime timer;
     private double waitingTime;
-    private boolean ok = false;
 
-    public Transfer(Differential differential, Claw claw, Virtual4Bar v4b) {
-        this.differential = differential;
-        this.claw = claw;
-        this.v4b = v4b;
+    public Transfer(AllObjects objects) {
+        differential = objects.differential;
+        claw = objects.claw;
+        v4b = objects.v4b;
+        extendo = objects.extendo;
 
         timer = new ElapsedTime();
 
@@ -43,9 +46,9 @@ public class Transfer {
 
     public void update() {
 
-        if (initiate) {
+        if (initiateTransfer) {
             state = TransferStates.INIT;
-            initiate = false;
+            initiateTransfer = false;
         }
 
         switch (state) {
@@ -59,6 +62,8 @@ public class Transfer {
                 differential.setState(Differential.DifferentialStates.INIT);
                 v4b.setState(Virtual4Bar.V4BStates.INIT);
                 claw.setWristState(Claw.WristState.TRANSFER);
+                claw.setIntakeState(Claw.IntakeState.OFF);
+                extendo.setState(Extendo.ExtendoStates.INIT);
 
                 state = TransferStates.WAITING;
                 nextState = TransferStates.PICK_UP;
@@ -87,8 +92,8 @@ public class Transfer {
                 break;
 
             case RELEASE:
-                differential.setState(Differential.DifferentialStates.RELEASE);
-                claw.setIntakeState(Claw.IntakeState.INIT);
+                //differential.setState(Differential.DifferentialStates.RELEASE);
+                claw.setIntakeState(Claw.IntakeState.OFF);
 
                 state = TransferStates.WAITING;
                 nextState = TransferStates.DISABLED;

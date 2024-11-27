@@ -22,8 +22,6 @@ public class IntakeClawCalibration extends OpMode {
     private RobotHardware robot;
     private Claw claw;
     private Virtual4Bar v4b;
-    private Differential differential;
-    private Transfer transfer;
 
     @Override
     public void init() {
@@ -34,18 +32,17 @@ public class IntakeClawCalibration extends OpMode {
 
         claw = new Claw(robot);
         v4b = new Virtual4Bar(robot);
-        differential = new Differential(robot);
-
-        transfer = new Transfer(differential, claw, v4b);
     }
 
-    public static double v4bPosition = 0.03, wristPosition = 0.18, rotationPosition = 0.57, activeIntakePower = 0;
+    public static double v4bPosition = 0.03, wristPosition = 0.38, rotationPosition = 0.57, activeIntakePower = 0;
 
     @Override
     public void loop() {
         claw.updatePosition(wristPosition, rotationPosition);
         claw.setIntakePower(activeIntakePower);
         v4b.setV4BPos(v4bPosition);
+
+        telemetry.addData("Pozitie extendo", robot.motorExtendo.getCurrentPosition());
 
         robot.update();
         telemetry.update();

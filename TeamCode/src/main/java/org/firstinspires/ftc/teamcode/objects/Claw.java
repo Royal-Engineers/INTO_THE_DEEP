@@ -24,10 +24,10 @@ public class Claw {
     {
         Intake,
         Outake,
-        INIT
+        OFF;
     }
-    IntakeState m_IntakeState = IntakeState.INIT, m_LastIntakeState = IntakeState.INIT;
-    private double IntakePower = 1.0d, OutakePower = -0.1, IdlePower = 0.0d;
+    IntakeState m_IntakeState = IntakeState.OFF, m_LastIntakeState = IntakeState.OFF;
+    private double IntakePower = 0.2, OutakePower = -0.1, IdlePower = 0.0d;
     public void setIntakeState(IntakeState state)
     {
         m_IntakeState = state;
@@ -37,11 +37,12 @@ public class Claw {
     {
         TRANSFER,
         SCAN,
-        INTAKE,
+        PICK_UP,
         INIT;
     }
-    public double RotationScan = 0.29d, RotationIntake = 0.0d, RotationInit = 0.57, RotationTransfer = 0.57;
-    public double WristScan = 0.78d, WristIntake = 0.0d, WristInit = 0.38, WristTransfer = 0.18;
+    public double RotationScan = 0.28, RotationPick_Up = 0.57, RotationInit = 0.57, RotationTransfer = 0.57;
+    public double WristScan = 0.65, WristPick_Up = 0.65, WristInit = 0.38, WristTransfer = 0.18;
+    private double RotationPos = 0.0d, WristPos = 0.0d;
     WristState m_WristState = WristState.INIT, m_LastWristState = WristState.INIT;
 
     public void setWristState(WristState state)
@@ -68,7 +69,7 @@ public class Claw {
             case Outake:
                 power = OutakePower;
                 break;
-            case INIT:
+            case OFF:
                 power = IdlePower;
                 break;
         }
@@ -81,7 +82,6 @@ public class Claw {
     {
         if ( m_WristState == m_LastWristState )
             return;
-        double RotationPos = 0.0d, WristPos = 0.0d;
 
         switch(m_WristState )
         {
@@ -89,9 +89,8 @@ public class Claw {
                 RotationPos = RotationInit;
                 WristPos = WristInit;
                 break;
-            case INTAKE:
-                RotationPos = RotationIntake;
-                WristPos = WristIntake;
+            case PICK_UP:
+                WristPos = WristPick_Up;
                 break;
             case SCAN:
                 RotationPos = RotationScan;
@@ -112,6 +111,14 @@ public class Claw {
     public void updatePosition(double wrist, double rotation) {
         servoClawWrist.setPosition(wrist);
         servoClawRotation.setPosition(rotation);
+    }
+
+    public void setClawRotation(double rotation) {
+        RotationPos = rotation;
+        servoClawRotation.setPosition(rotation);
+    }
+    public double getClawRotation() {
+        return RotationPos;
     }
 
     public void setIntakePower(double power) {

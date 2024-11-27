@@ -21,7 +21,7 @@ public class Differential {
     private double leftAngle = 0, rightAngle = 0, clawPosition = 0;
 
     private final double LINEAR_ANGLE_INIT = 0.03;
-    private final double LINEAR_ANGLE_INTERMEDIATE = 0.53;
+    private final double LINEAR_ANGLE_INTERMEDIATE = 0.05;
     private final double LINEAR_ANGLE_RELEASE = 0.53;
 
     private final double ROTATION_ANGLE_INIT = 0;
