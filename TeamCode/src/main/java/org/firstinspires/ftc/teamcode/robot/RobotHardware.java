@@ -7,7 +7,9 @@ import static org.firstinspires.ftc.teamcode.robot.StaticVariables.lastgamepad;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.lastgamepad2;
 
 import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -27,6 +29,8 @@ public class RobotHardware {
     public CRServo servoActiveIntake;
 
     public DigitalChannel transferDetection;
+
+    public RevColorSensorV3 colorSensorLeft, colorSensorCenter, colorSensorRight;
 
 
     public void init() {
@@ -51,6 +55,10 @@ public class RobotHardware {
         servoClawRotation = hardwareMap.get(Servo.class, "servoClawRotation");
         servoClawWrist = hardwareMap.get(Servo.class, "servoClawWrist");
         servoActiveIntake = hardwareMap.get(CRServo.class, "servoActiveIntake");
+
+        colorSensorLeft = hardwareMap.get(RevColorSensorV3.class, "colorSensorLeft");
+        colorSensorCenter = hardwareMap.get(RevColorSensorV3.class, "colorSensorCenter");
+        colorSensorRight = hardwareMap.get(RevColorSensorV3.class, "colorSensorRight");
 
         // OUTTAKE
         motorLiftUp = hardwareMap.get(DcMotor.class, "motorLiftUp");

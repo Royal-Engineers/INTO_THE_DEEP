@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.objects.Claw;
 import org.firstinspires.ftc.teamcode.objects.Differential;
 import org.firstinspires.ftc.teamcode.objects.Extendo;
 import org.firstinspires.ftc.teamcode.objects.Lift;
+import org.firstinspires.ftc.teamcode.objects.SensorTrio;
 import org.firstinspires.ftc.teamcode.objects.Virtual4Bar;
 
 public class AllObjects {
@@ -16,6 +17,7 @@ public class AllObjects {
     public Differential differential;
     public Claw claw;
     public Virtual4Bar v4b;
+    public SensorTrio sensorTrio;
 
     public void init(RobotHardware robot) {
         chassis = new Chassis(robot);
@@ -24,6 +26,7 @@ public class AllObjects {
         differential = new Differential(robot);
         v4b = new Virtual4Bar(robot);
         claw = new Claw(robot);
+        sensorTrio = new SensorTrio(robot.colorSensorLeft, robot.colorSensorCenter, robot.colorSensorRight);
     }
 
     public void update() {

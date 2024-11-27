@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.objects.Claw;
 import org.firstinspires.ftc.teamcode.objects.Extendo;
+import org.firstinspires.ftc.teamcode.objects.SensorTrio;
 import org.firstinspires.ftc.teamcode.objects.Virtual4Bar;
 import org.firstinspires.ftc.teamcode.robot.AllObjects;
 
@@ -13,6 +14,7 @@ public class Intake {
     private Extendo extendo;
     private Virtual4Bar v4b;
     private Claw claw;
+    private SensorTrio sensorTrio;
     public static boolean initiateIntake = false;
 
     public enum IntakeStates {
@@ -31,6 +33,7 @@ public class Intake {
         v4b = objects.v4b;
         claw = objects.claw;
         extendo = objects.extendo;
+        sensorTrio = objects.sensorTrio;
 
         timer = new ElapsedTime();
 
@@ -45,8 +48,12 @@ public class Intake {
             initiateIntake = false;
         }
 
-        if (state == lastState && state == IntakeStates.SCANNING)
-            return;
+        if (state == lastState && state == IntakeStates.SCANNING) {
+            if (sensorTrio.getCenterRed() > 100 && sensorTrio.getLeftRed() > 70 && sensorTrio.getRightRed() > 140)
+                state = IntakeStates.PICK_UP;
+            else
+                return;
+        }
 
         switch (state) {
             case WAITING:
@@ -70,7 +77,7 @@ public class Intake {
 
                 state = IntakeStates.WAITING;
                 nextState = IntakeStates.FINISH;
-                timer.reset(); waitingTime = 1;
+                timer.reset(); waitingTime = 2;
                 break;
 
             case FINISH:

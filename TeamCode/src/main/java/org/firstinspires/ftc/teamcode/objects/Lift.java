@@ -1,20 +1,23 @@
 package org.firstinspires.ftc.teamcode.objects;
 
+import static org.firstinspires.ftc.teamcode.robot.StaticVariables.telemetry;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.robot.RobotHardware;
 
 public class Lift {
-    private DcMotor motorUp, motorDown;
+    public DcMotor motorUp, motorDown;
     public enum LiftStates {
+        RANDOM,
         INIT,
         LOW_BASKET,
         HIGH_BASKET,
         LOW_CHAMBER,
         HIGH_CHAMBER;
     }
-    public LiftStates state, lastState;
+    private LiftStates state, lastState;
 
     private final int INIT = 0;
     private final int LOW_BASKET = 1000;
@@ -34,7 +37,6 @@ public class Lift {
         motorDown.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorDown.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorDown.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorDown.setDirection(DcMotorSimple.Direction.REVERSE);
 
         motorUp.setTargetPosition(INIT);
         motorDown.setTargetPosition(INIT);
@@ -60,8 +62,8 @@ public class Lift {
 
                     position = INIT;
 
-                    motorUp.setPower(1);
-                    motorDown.setPower(1);
+                    motorUp.setPower(0.5);
+                    motorDown.setPower(0.5);
                     break;
 
                 case LOW_BASKET:
@@ -107,14 +109,15 @@ public class Lift {
             }
         }
 
-        lastState = state;
+        telemetry.addData("Pozitie lift", motorDown.getCurrentPosition());
 
-        motorDown.setPower(1);
-        motorUp.setPower(1);
+        lastState = state;
     }
 
     public void increasePosition(int value) {
         position += value;
+
+        state = LiftStates.RANDOM;
 
         motorUp.setTargetPosition(position);
         motorDown.setTargetPosition(position);
@@ -126,11 +129,25 @@ public class Lift {
     public void decreasePosition(int value) {
         position -= value;
 
+        state = LiftStates.RANDOM;
+
         motorUp.setTargetPosition(position);
         motorDown.setTargetPosition(position);
 
         motorUp.setPower(1);
         motorDown.setPower(1);
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setState(LiftStates state) {
+        this.state = state;
+    }
+
+    public LiftStates getState() {
+        return state;
     }
 
 }

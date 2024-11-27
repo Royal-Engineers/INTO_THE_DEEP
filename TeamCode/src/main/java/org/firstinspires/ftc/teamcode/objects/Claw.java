@@ -7,8 +7,7 @@ import org.firstinspires.ftc.teamcode.robot.RobotHardware;
 
 public class Claw {
 
-    Servo servoClawRotation,
-    servoClawWrist;
+    Servo servoClawRotation, servoClawWrist;
     CRServo servoActiveIntake;
     public Claw(RobotHardware robot)
     {
@@ -27,7 +26,7 @@ public class Claw {
         OFF;
     }
     IntakeState m_IntakeState = IntakeState.OFF, m_LastIntakeState = IntakeState.OFF;
-    private double IntakePower = 0.2, OutakePower = -0.1, IdlePower = 0.0d;
+    private double IntakePower = 0.3, OutakePower = -0.1, IdlePower = 0.0d;
     public void setIntakeState(IntakeState state)
     {
         m_IntakeState = state;

@@ -5,6 +5,7 @@ import static org.firstinspires.ftc.teamcode.commands.Transfer.initiateTransfer;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.gamepad;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.gamepad2;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.lastgamepad;
+import static org.firstinspires.ftc.teamcode.robot.StaticVariables.lastgamepad2;
 
 import com.acmerobotics.dashboard.config.Config;
 
@@ -28,10 +29,13 @@ public class Commands {
 
     public Transfer transfer;
     public Intake intake;
+    public Outtake outtake;
 
     private double Ktrigger = 2;
     public static double Krotation = 0.003;
     private double intakeClawRotation;
+
+    private Outtake.OuttakeStates outtakePosition;
 
     public void init(AllObjects objects) {
         chassis = objects.chassis;
@@ -43,23 +47,59 @@ public class Commands {
 
         transfer = new Transfer(objects);
         intake = new Intake(objects);
+        outtake = new Outtake(objects);
     }
 
     public void update() {
-        //chassis.setMovement(gamepad.left_stick_x, -gamepad.left_stick_y, gamepad.right_stick_x);
+        // CHASISS
+
+        chassis.setMovement(gamepad.left_stick_x, -gamepad.left_stick_y, gamepad.right_stick_x);
+
+        // LIFT
 
         if (gamepad.left_trigger > 0.1) {
             lift.decreasePosition((int)(gamepad.left_trigger * Ktrigger));
+
+            if (lift.getPosition() == 0)
+                outtake.setState(Outtake.OuttakeStates.FINISH);
         }
 
         if (gamepad.right_trigger > 0.1) {
             lift.increasePosition((int)(gamepad.right_trigger * Ktrigger));
         }
 
-        if (gamepad.triangle && !lastgamepad.triangle) {
-            if (lift.state == Lift.LiftStates.INIT) lift.state = Lift.LiftStates.LOW_CHAMBER;
-            else lift.state = Lift.LiftStates.INIT;
+        if (gamepad2.dpad_up && !lastgamepad2.dpad_up) {
+            outtakePosition = Outtake.OuttakeStates.HIGH_CHAMBER;
         }
+
+        if (gamepad2.dpad_down && !lastgamepad2.dpad_down) {
+            outtakePosition = Outtake.OuttakeStates.LOW_CHAMBER;
+        }
+
+        if (gamepad2.triangle && !lastgamepad2.triangle) {
+            outtakePosition = Outtake.OuttakeStates.HIGH_BASKET;
+        }
+
+        if (gamepad2.cross && !lastgamepad2.cross) {
+            outtakePosition = Outtake.OuttakeStates.LOW_BASKET;
+        }
+
+        if (gamepad.right_bumper && !lastgamepad.right_bumper) {
+            outtake.setState(outtakePosition);
+        }
+
+        if (gamepad.left_bumper && !lastgamepad.left_bumper) {
+            outtake.setState(Outtake.OuttakeStates.FINISH);
+        }
+
+        if (gamepad.triangle && !lastgamepad.triangle) {
+            if (lift.getState() == Lift.LiftStates.INIT)
+                lift.setState(Lift.LiftStates.LOW_CHAMBER);
+            else
+                lift.setState(Lift.LiftStates.INIT);
+        }
+
+        //DIFFERENTIAL
 
         if (gamepad.cross && !lastgamepad.cross) {
             if (differential.clawState)
@@ -68,13 +108,13 @@ public class Commands {
                 differential.closeClaw();
         }
 
+        // TRANSFER
+
         if (gamepad.square && !lastgamepad.square) {
             initiateTransfer = true;
         }
 
-        if (gamepad.triangle && !lastgamepad.triangle) {
-            differential.setState(Differential.DifferentialStates.INIT);
-        }
+        // INTAKE
 
         if (gamepad.right_stick_button && !lastgamepad.right_stick_button) {
             initiateIntake = true;
@@ -85,13 +125,14 @@ public class Commands {
                 intake.setState(Intake.IntakeStates.PICK_UP);
         }
 
-        if (Math.abs(gamepad.right_stick_x) > 0.2) {
+        if (Math.abs(gamepad2.right_stick_x) > 0.2) {
             intakeClawRotation = claw.getClawRotation();
-            intakeClawRotation += gamepad.right_stick_x * Krotation;
+            intakeClawRotation += gamepad2.right_stick_x * Krotation;
             claw.setClawRotation(intakeClawRotation);
         }
 
         transfer.update();
         intake.update();
+        outtake.update();
     }
 }
