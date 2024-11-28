@@ -8,12 +8,14 @@ public class Extendo {
     public DcMotor motor;
     public enum ExtendoStates {
         INIT,
+        TRANSFER,
         EXTENDED;
     }
     private ExtendoStates state, lastState;
 
     private final int INIT = 0;
     private final int EXTENDED = 240;
+    private final int TRANSFER = 50;
 
 
     public Extendo(RobotHardware robot) {
@@ -34,7 +36,7 @@ public class Extendo {
             switch (state) {
                 case INIT:
                     motor.setTargetPosition(INIT);
-                    motor.setPower(0.2);
+                    motor.setPower(1);
 
                     break;
 
@@ -43,6 +45,10 @@ public class Extendo {
                     motor.setPower(1);
 
                     break;
+
+                case TRANSFER:
+                    motor.setTargetPosition(TRANSFER);
+                    motor.setPower(0.3);
             }
         }
 

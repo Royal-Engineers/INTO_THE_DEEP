@@ -32,8 +32,8 @@ public class Commands {
     public Intake intake;
     public Outtake outtake;
 
-    private double Ktrigger = 2;
-    public static double Krotation = 0.01;
+    private double Ktrigger = 4;
+    public static double Krotation = 0.02;
     private double intakeClawRotation;
 
     private Outtake.OuttakeStates outtakePosition = Outtake.OuttakeStates.DISABLED;
@@ -91,8 +91,6 @@ public class Commands {
 
         if (gamepad.left_bumper && !lastgamepad.left_bumper) {
             outtake.setState(Outtake.OuttakeStates.FINISH);
-
-            outtakePosition = Outtake.OuttakeStates.DISABLED;
         }
 
         if (gamepad.triangle && !lastgamepad.triangle) {

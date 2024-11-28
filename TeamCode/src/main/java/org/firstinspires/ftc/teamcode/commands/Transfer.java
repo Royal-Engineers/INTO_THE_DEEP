@@ -64,7 +64,7 @@ public class Transfer {
                 v4b.setState(Virtual4Bar.V4BStates.INIT);
                 claw.setWristState(Claw.WristState.TRANSFER);
                 claw.setIntakeState(Claw.IntakeState.OFF);
-                extendo.setState(Extendo.ExtendoStates.INIT);
+                extendo.setState(Extendo.ExtendoStates.TRANSFER);
 
                 state = TransferStates.READY_TO_PICK_UP;
                 break;
@@ -99,6 +99,7 @@ public class Transfer {
 
             case FINISH:
                 claw.setIntakeState(Claw.IntakeState.OFF);
+                extendo.setState(Extendo.ExtendoStates.INIT);
 
                 state = TransferStates.WAITING;
                 nextState = TransferStates.DISABLED;

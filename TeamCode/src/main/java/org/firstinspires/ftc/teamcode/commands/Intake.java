@@ -96,7 +96,7 @@ public class Intake {
 
                 state = IntakeStates.WAITING;
                 nextState = IntakeStates.FINISH;
-                timer.reset(); waitingTime = 1.5;
+                timer.reset(); waitingTime = 1;
                 break;
 
             case FINISH:

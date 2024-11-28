@@ -20,8 +20,8 @@ public class Lift {
     private LiftStates state, lastState;
 
     private final int INIT = 0;
-    private final int LOW_BASKET = 270;
-    private final int HIGH_BASKET = 690;
+    private final int LOW_BASKET = 300;
+    private final int HIGH_BASKET = 700;
     private final int LOW_CHAMBER = 35;
     private final int HIGH_CHAMBER = 310;
     private int position;
