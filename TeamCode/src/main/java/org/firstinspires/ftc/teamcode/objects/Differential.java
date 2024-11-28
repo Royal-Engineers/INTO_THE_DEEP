@@ -13,20 +13,20 @@ public class Differential {
         INIT,
         PICK_UP,
         INTERMEDIATE,
-        RELEASE;
+        BASKET;
     }
 
     public DifferentialStates state, lastState;
     public boolean clawState = false; // false means open
     private double leftAngle = 0, rightAngle = 0, clawPosition = 0;
 
-    private final double LINEAR_ANGLE_INIT = 0.03;
-    private final double LINEAR_ANGLE_INTERMEDIATE = 0.05;
-    private final double LINEAR_ANGLE_RELEASE = 0.53;
+    private final double LINEAR_ANGLE_INIT = 0.06;
+    private final double LINEAR_ANGLE_INTERMEDIATE = 0.08;
+    private final double LINEAR_ANGLE_BASKET = 0.5;
 
     private final double ROTATION_ANGLE_INIT = 0;
     private final double ROTATION_ANGLE_INTERMEDIATE = 0;
-    private final double ROTATION_ANGLE_RELEASE = 0.28;
+    private final double ROTATION_ANGLE_BASKET = 0.28;
 
     private final double CLAW_OPEN = 0.55;
     private final double CLAW_CLOSED = 0.8;
@@ -71,8 +71,8 @@ public class Differential {
 
                     break;
 
-                case RELEASE:
-                    setServoPosition(LINEAR_ANGLE_RELEASE, ROTATION_ANGLE_RELEASE);
+                case BASKET:
+                    setServoPosition(LINEAR_ANGLE_BASKET, ROTATION_ANGLE_BASKET);
 
                     break;
             }

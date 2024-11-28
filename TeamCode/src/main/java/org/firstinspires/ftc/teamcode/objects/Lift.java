@@ -20,10 +20,10 @@ public class Lift {
     private LiftStates state, lastState;
 
     private final int INIT = 0;
-    private final int LOW_BASKET = 1000;
-    private final int HIGH_BASKET = 2000;
-    private final int LOW_CHAMBER = 500;
-    private final int HIGH_CHAMBER = 1500;
+    private final int LOW_BASKET = 270;
+    private final int HIGH_BASKET = 690;
+    private final int LOW_CHAMBER = 35;
+    private final int HIGH_CHAMBER = 310;
     private int position;
 
     public Lift(RobotHardware robot) {
@@ -72,8 +72,8 @@ public class Lift {
 
                     position = LOW_BASKET;
 
-                    motorUp.setPower(1);
-                    motorDown.setPower(1);
+                    motorUp.setPower(0.8);
+                    motorDown.setPower(0.8);
                     break;
 
                 case HIGH_BASKET:
@@ -82,8 +82,8 @@ public class Lift {
 
                     position = HIGH_BASKET;
 
-                    motorUp.setPower(1);
-                    motorDown.setPower(1);
+                    motorUp.setPower(0.8);
+                    motorDown.setPower(0.8);
                     break;
 
                 case LOW_CHAMBER:
@@ -92,8 +92,8 @@ public class Lift {
 
                     position = LOW_CHAMBER;
 
-                    motorUp.setPower(1);
-                    motorDown.setPower(1);
+                    motorUp.setPower(0.8);
+                    motorDown.setPower(0.8);
                     break;
 
                 case HIGH_CHAMBER:
@@ -102,8 +102,8 @@ public class Lift {
 
                     position = HIGH_CHAMBER;
 
-                    motorUp.setPower(1);
-                    motorDown.setPower(1);
+                    motorUp.setPower(0.8);
+                    motorDown.setPower(0.8);
                     break;
 
             }

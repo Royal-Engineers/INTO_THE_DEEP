@@ -23,9 +23,10 @@ public class Transfer {
         WAITING,
         DISABLED,
         INIT,
+        READY_TO_PICK_UP,
         PICK_UP,
         INTERMEDIATE,
-        RELEASE;
+        FINISH;
     }
 
     public TransferStates state, nextState;
@@ -65,20 +66,25 @@ public class Transfer {
                 claw.setIntakeState(Claw.IntakeState.OFF);
                 extendo.setState(Extendo.ExtendoStates.INIT);
 
-                state = TransferStates.WAITING;
-                nextState = TransferStates.PICK_UP;
-                timer.reset(); waitingTime = 0.5;
+                state = TransferStates.READY_TO_PICK_UP;
+                break;
+
+            case READY_TO_PICK_UP:
+                if (!differential.transferDetection.getState()) {
+                    state = TransferStates.WAITING;
+                    nextState = TransferStates.PICK_UP;
+                    timer.reset(); waitingTime = 0.5;
+                }
+
                 break;
 
             case PICK_UP:
-                if (!differential.transferDetection.getState()) {
-                    differential.setState(Differential.DifferentialStates.PICK_UP);
-                    claw.setIntakeState(Claw.IntakeState.Outake);
+                differential.setState(Differential.DifferentialStates.PICK_UP);
+                claw.setIntakeState(Claw.IntakeState.Outake);
 
-                    state = TransferStates.WAITING;
-                    nextState = TransferStates.INTERMEDIATE;
-                    timer.reset(); waitingTime = 0.5;
-                }
+                state = TransferStates.WAITING;
+                nextState = TransferStates.INTERMEDIATE;
+                timer.reset(); waitingTime = 0.5;
 
                 break;
 
@@ -87,12 +93,11 @@ public class Transfer {
                 claw.setWristState(Claw.WristState.INIT);
 
                 state = TransferStates.WAITING;
-                nextState = TransferStates.RELEASE;
+                nextState = TransferStates.FINISH;
                 timer.reset(); waitingTime = 0.5;
                 break;
 
-            case RELEASE:
-                //differential.setState(Differential.DifferentialStates.RELEASE);
+            case FINISH:
                 claw.setIntakeState(Claw.IntakeState.OFF);
 
                 state = TransferStates.WAITING;

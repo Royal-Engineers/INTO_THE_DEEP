@@ -42,8 +42,6 @@ public class IntakeClawCalibration extends OpMode {
         claw.setIntakePower(activeIntakePower);
         v4b.setV4BPos(v4bPosition);
 
-        telemetry.addData("Pozitie extendo", robot.motorExtendo.getCurrentPosition());
-
         robot.update();
         telemetry.update();
     }

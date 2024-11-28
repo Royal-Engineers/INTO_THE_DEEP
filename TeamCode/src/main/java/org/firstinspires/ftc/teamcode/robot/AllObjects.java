@@ -38,5 +38,11 @@ public class AllObjects {
         claw.Update();
 
         telemetry.addData("Pozitie Extendo", extendo.motor.getCurrentPosition());
+
+        telemetry.addLine("");
+
+        telemetry.addData("RedLeft", sensorTrio.getLeftRed());
+        telemetry.addData("RedCenter", sensorTrio.getCenterRed());
+        telemetry.addData("RedRight", sensorTrio.getRightRed());
     }
 }

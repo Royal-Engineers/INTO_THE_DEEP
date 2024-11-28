@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.commands;
 
 import static org.firstinspires.ftc.teamcode.commands.Transfer.initiateTransfer;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.objects.Claw;
@@ -9,7 +10,7 @@ import org.firstinspires.ftc.teamcode.objects.Extendo;
 import org.firstinspires.ftc.teamcode.objects.SensorTrio;
 import org.firstinspires.ftc.teamcode.objects.Virtual4Bar;
 import org.firstinspires.ftc.teamcode.robot.AllObjects;
-
+@Config
 public class Intake {
     private Extendo extendo;
     private Virtual4Bar v4b;
@@ -27,7 +28,9 @@ public class Intake {
 
     private IntakeStates state, nextState, lastState;
     private ElapsedTime timer;
-    private double waitingTime;
+    private double waitingTime, rotationPosition;
+    public static double K = 0.00001;
+    private boolean direction = true;
 
     public Intake(AllObjects objects) {
         v4b = objects.v4b;
@@ -48,12 +51,27 @@ public class Intake {
             initiateIntake = false;
         }
 
-        if (state == lastState && state == IntakeStates.SCANNING) {
+        /*if (state == lastState && state == IntakeStates.SCANNING) {
+            if (direction) {
+                rotationPosition += K;
+                claw.setClawRotation(rotationPosition);
+
+                if (rotationPosition >= 0.57)
+                    direction = false;
+            }
+            else {
+                rotationPosition -= K;
+                claw.setClawRotation(rotationPosition);
+
+                if (rotationPosition <= 0.03)
+                    direction = true;
+            }
+
             if (sensorTrio.getCenterRed() > 100 && sensorTrio.getLeftRed() > 70 && sensorTrio.getRightRed() > 140)
                 state = IntakeStates.PICK_UP;
             else
                 return;
-        }
+        }*/
 
         switch (state) {
             case WAITING:
@@ -67,6 +85,7 @@ public class Intake {
                 claw.setWristState(Claw.WristState.SCAN);
                 extendo.setState(Extendo.ExtendoStates.EXTENDED);
 
+                rotationPosition = claw.getClawRotation();
                 lastState = IntakeStates.SCANNING;
                 break;
 
@@ -77,7 +96,7 @@ public class Intake {
 
                 state = IntakeStates.WAITING;
                 nextState = IntakeStates.FINISH;
-                timer.reset(); waitingTime = 2;
+                timer.reset(); waitingTime = 1.5;
                 break;
 
             case FINISH:

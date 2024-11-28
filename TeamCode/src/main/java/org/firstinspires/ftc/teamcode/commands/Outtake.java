@@ -32,25 +32,25 @@ public class Outtake {
         if (state != lastState) {
             switch(state) {
                 case LOW_CHAMBER:
-                    differential.setState(Differential.DifferentialStates.RELEASE);
+                    differential.setState(Differential.DifferentialStates.BASKET);
                     lift.setState(Lift.LiftStates.LOW_CHAMBER);
 
                     break;
 
                 case HIGH_CHAMBER:
-                    differential.setState(Differential.DifferentialStates.RELEASE);
+                    differential.setState(Differential.DifferentialStates.BASKET);
                     lift.setState(Lift.LiftStates.HIGH_CHAMBER);
 
                     break;
 
                 case LOW_BASKET:
-                    differential.setState(Differential.DifferentialStates.RELEASE);
+                    differential.setState(Differential.DifferentialStates.BASKET);
                     lift.setState(Lift.LiftStates.LOW_BASKET);
 
                     break;
 
                 case HIGH_BASKET:
-                    differential.setState(Differential.DifferentialStates.RELEASE);
+                    differential.setState(Differential.DifferentialStates.BASKET);
                     lift.setState(Lift.LiftStates.HIGH_BASKET);
 
                     break;
@@ -69,5 +69,9 @@ public class Outtake {
 
     public void setState(OuttakeStates state) {
         this.state = state;
+    }
+
+    public OuttakeStates getState() {
+        return state;
     }
 }

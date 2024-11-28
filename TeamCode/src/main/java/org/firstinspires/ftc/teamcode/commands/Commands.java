@@ -6,6 +6,7 @@ import static org.firstinspires.ftc.teamcode.robot.StaticVariables.gamepad;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.gamepad2;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.lastgamepad;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.lastgamepad2;
+import static org.firstinspires.ftc.teamcode.robot.StaticVariables.telemetry;
 
 import com.acmerobotics.dashboard.config.Config;
 
@@ -32,10 +33,10 @@ public class Commands {
     public Outtake outtake;
 
     private double Ktrigger = 2;
-    public static double Krotation = 0.003;
+    public static double Krotation = 0.01;
     private double intakeClawRotation;
 
-    private Outtake.OuttakeStates outtakePosition;
+    private Outtake.OuttakeStates outtakePosition = Outtake.OuttakeStates.DISABLED;
 
     public void init(AllObjects objects) {
         chassis = objects.chassis;
@@ -90,6 +91,8 @@ public class Commands {
 
         if (gamepad.left_bumper && !lastgamepad.left_bumper) {
             outtake.setState(Outtake.OuttakeStates.FINISH);
+
+            outtakePosition = Outtake.OuttakeStates.DISABLED;
         }
 
         if (gamepad.triangle && !lastgamepad.triangle) {
@@ -101,7 +104,7 @@ public class Commands {
 
         //DIFFERENTIAL
 
-        if (gamepad.cross && !lastgamepad.cross) {
+        if (gamepad.left_stick_button && !lastgamepad.left_stick_button) {
             if (differential.clawState)
                 differential.openClaw();
             else
@@ -128,8 +131,17 @@ public class Commands {
         if (Math.abs(gamepad2.right_stick_x) > 0.2) {
             intakeClawRotation = claw.getClawRotation();
             intakeClawRotation += gamepad2.right_stick_x * Krotation;
+
+            if (intakeClawRotation < 0.03)
+                intakeClawRotation = 0.03;
+
+            if (intakeClawRotation > 0.57)
+                intakeClawRotation = 0.57;
+
             claw.setClawRotation(intakeClawRotation);
         }
+
+        telemetry.addData("Target outtake", outtakePosition);
 
         transfer.update();
         intake.update();

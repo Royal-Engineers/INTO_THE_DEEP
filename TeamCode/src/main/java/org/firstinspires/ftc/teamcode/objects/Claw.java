@@ -26,7 +26,7 @@ public class Claw {
         OFF;
     }
     IntakeState m_IntakeState = IntakeState.OFF, m_LastIntakeState = IntakeState.OFF;
-    private double IntakePower = 0.3, OutakePower = -0.1, IdlePower = 0.0d;
+    private double IntakePower = 0.3, OutakePower = -0.3, IdlePower = 0.0d;
     public void setIntakeState(IntakeState state)
     {
         m_IntakeState = state;
@@ -39,8 +39,8 @@ public class Claw {
         PICK_UP,
         INIT;
     }
-    public double RotationScan = 0.28, RotationPick_Up = 0.57, RotationInit = 0.57, RotationTransfer = 0.57;
-    public double WristScan = 0.65, WristPick_Up = 0.65, WristInit = 0.38, WristTransfer = 0.18;
+    public double RotationScan = 0.03, RotationPick_Up = 0.57, RotationInit = 0.57, RotationTransfer = 0.57;
+    public double WristScan = 0.67, WristPick_Up = 0.65, WristInit = 0.38, WristTransfer = 0.18;
     private double RotationPos = 0.0d, WristPos = 0.0d;
     WristState m_WristState = WristState.INIT, m_LastWristState = WristState.INIT;
 
