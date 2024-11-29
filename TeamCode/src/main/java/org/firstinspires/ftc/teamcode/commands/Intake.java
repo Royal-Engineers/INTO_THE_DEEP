@@ -83,7 +83,9 @@ public class Intake {
             case SCANNING:
                 v4b.setState(Virtual4Bar.V4BStates.SCANNING);
                 claw.setWristState(Claw.WristState.SCAN);
+                claw.setIntakeState(Claw.IntakeState.OFF);
                 extendo.setState(Extendo.ExtendoStates.EXTENDED);
+
 
                 rotationPosition = claw.getClawRotation();
                 lastState = IntakeStates.SCANNING;
@@ -94,9 +96,6 @@ public class Intake {
                 claw.setWristState(Claw.WristState.PICK_UP);
                 claw.setIntakeState(Claw.IntakeState.Intake);
 
-                state = IntakeStates.WAITING;
-                nextState = IntakeStates.FINISH;
-                timer.reset(); waitingTime = 1;
                 break;
 
             case FINISH:

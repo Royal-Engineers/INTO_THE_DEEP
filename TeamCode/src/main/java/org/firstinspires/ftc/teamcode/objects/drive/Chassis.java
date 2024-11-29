@@ -1,6 +1,4 @@
-package org.firstinspires.ftc.teamcode.objects;
-
-import static org.firstinspires.ftc.teamcode.robot.StaticVariables.gamepad;
+package org.firstinspires.ftc.teamcode.objects.drive;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;

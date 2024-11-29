@@ -34,13 +34,15 @@ public class IntakeClawCalibration extends OpMode {
         v4b = new Virtual4Bar(robot);
     }
 
-    public static double v4bPosition = 0.03, wristPosition = 0.38, rotationPosition = 0.57, activeIntakePower = 0;
+    public static double v4bPosition = 0.03, wristPosition = 0.38, rotationPosition = 0.57, activeIntakePower = 0, diffClaw = 0.55;
 
     @Override
     public void loop() {
         claw.updatePosition(wristPosition, rotationPosition);
         claw.setIntakePower(activeIntakePower);
         v4b.setV4BPos(v4bPosition);
+
+        robot.servoDifferentialClaw.setPosition(diffClaw);
 
         robot.update();
         telemetry.update();

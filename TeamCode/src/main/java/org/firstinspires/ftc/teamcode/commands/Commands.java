@@ -10,14 +10,13 @@ import static org.firstinspires.ftc.teamcode.robot.StaticVariables.telemetry;
 
 import com.acmerobotics.dashboard.config.Config;
 
-import org.firstinspires.ftc.teamcode.objects.Chassis;
+import org.firstinspires.ftc.teamcode.objects.drive.Chassis;
 import org.firstinspires.ftc.teamcode.objects.Claw;
 import org.firstinspires.ftc.teamcode.objects.Differential;
 import org.firstinspires.ftc.teamcode.objects.Extendo;
 import org.firstinspires.ftc.teamcode.objects.Lift;
 import org.firstinspires.ftc.teamcode.objects.Virtual4Bar;
 import org.firstinspires.ftc.teamcode.robot.AllObjects;
-import org.firstinspires.ftc.teamcode.robot.RobotHardware;
 
 @Config
 public class Commands {
@@ -32,7 +31,7 @@ public class Commands {
     public Intake intake;
     public Outtake outtake;
 
-    private double Ktrigger = 4;
+    public static double Ktrigger = 6;
     public static double Krotation = 0.02;
     private double intakeClawRotation;
 
@@ -85,6 +84,10 @@ public class Commands {
             outtakePosition = Outtake.OuttakeStates.LOW_BASKET;
         }
 
+        if (gamepad2.square && !lastgamepad2.square) {
+            outtakePosition = Outtake.OuttakeStates.FENCE;
+        }
+
         if (gamepad.right_bumper && !lastgamepad.right_bumper) {
             outtake.setState(outtakePosition);
         }
@@ -109,6 +112,14 @@ public class Commands {
                 differential.closeClaw();
         }
 
+        if (gamepad2.dpad_left && !lastgamepad2.dpad_left) {
+            differential.rotateDifferentialLeft();
+        }
+
+        if (gamepad2.dpad_right && !lastgamepad2.dpad_right) {
+            differential.rotateDifferentialRight();
+        }
+
         // TRANSFER
 
         if (gamepad.square && !lastgamepad.square) {
@@ -118,12 +129,20 @@ public class Commands {
         // INTAKE
 
         if (gamepad.right_stick_button && !lastgamepad.right_stick_button) {
-            initiateIntake = true;
+            if (intake.getState() == Intake.IntakeStates.DISABLED) {
+                claw.setClawRotation(0.03);
+                initiateIntake = true;
+            }
+            else
+                intake.setState(Intake.IntakeStates.FINISH);
         }
 
-        if (gamepad.circle && !lastgamepad.circle) {
+        if (gamepad.circle) {
             if (intake.getState() == Intake.IntakeStates.SCANNING)
                 intake.setState(Intake.IntakeStates.PICK_UP);
+        }
+        else if (intake.getState() == Intake.IntakeStates.PICK_UP) {
+            intake.setState(Intake.IntakeStates.SCANNING);
         }
 
         if (Math.abs(gamepad2.right_stick_x) > 0.2) {

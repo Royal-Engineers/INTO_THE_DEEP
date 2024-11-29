@@ -13,27 +13,35 @@ public class Differential {
         INIT,
         PICK_UP,
         INTERMEDIATE,
-        BASKET;
+        BASKET,
+        FENCE,
+        SPECIMEN_RELEASE;
     }
 
     public DifferentialStates state, lastState;
     public boolean clawState = false; // false means open
-    private double leftAngle = 0, rightAngle = 0, clawPosition = 0;
+    private final double offsetRight = 0.3;
+
+    private double linearAngle, rotationAngle, lastLinearAngle, lastRotationAngle;
+
 
     private final double LINEAR_ANGLE_INIT = 0.06;
     private final double LINEAR_ANGLE_INTERMEDIATE = 0.1;
-    private final double LINEAR_ANGLE_BASKET = 0.5;
+    private final double LINEAR_ANGLE_BASKET = 0.45;
+    private final double LINEAR_ANGLE_FENCE = 0.63;
 
     private final double ROTATION_ANGLE_INIT = 0;
     private final double ROTATION_ANGLE_INTERMEDIATE = 0;
-    private final double ROTATION_ANGLE_BASKET = 0.28;
+    private final double ROTATION_ANGLE_FORWARD = 0.28;
+    private final double ROTATION_ANGLE_REVERSE = -0.28;
 
-    private final double CLAW_OPEN = 0.55;
+    private final double CLAW_OPEN = 0.45;
+    private final double CLAW_TRANSFER = 0.55;
     private final double CLAW_CLOSED = 0.8;
 
     public void setServoPosition(double linearAngle, double rotationAngle) {
         servoLeft.setPosition(linearAngle + rotationAngle);
-        servoRight.setPosition(linearAngle - rotationAngle);
+        servoRight.setPosition(linearAngle - rotationAngle + offsetRight);
     }
 
     public Differential(RobotHardware robot) {
@@ -47,8 +55,10 @@ public class Differential {
         state = DifferentialStates.INIT;
         lastState = DifferentialStates.INIT;
 
-        setServoPosition(LINEAR_ANGLE_INIT, ROTATION_ANGLE_INIT);
-        servoClaw.setPosition(CLAW_OPEN);
+        linearAngle = LINEAR_ANGLE_INIT; lastLinearAngle  = linearAngle;
+        rotationAngle = ROTATION_ANGLE_INIT; lastRotationAngle = rotationAngle;
+        setServoPosition(linearAngle, rotationAngle);
+        servoClaw.setPosition(CLAW_TRANSFER);
     }
 
     public void update() {
@@ -56,8 +66,9 @@ public class Differential {
         if (state != lastState) {
             switch (state) {
                 case INIT:
-                    setServoPosition(LINEAR_ANGLE_INIT, ROTATION_ANGLE_INIT);
-                    openClaw();
+                    linearAngle = LINEAR_ANGLE_INIT;
+                    rotationAngle = ROTATION_ANGLE_INIT;
+                    servoClaw.setPosition(CLAW_TRANSFER);
 
                     break;
 
@@ -67,22 +78,51 @@ public class Differential {
                     break;
 
                 case INTERMEDIATE:
-                    setServoPosition(LINEAR_ANGLE_INTERMEDIATE, ROTATION_ANGLE_INTERMEDIATE);
+                    linearAngle = LINEAR_ANGLE_INTERMEDIATE;
+                    rotationAngle = ROTATION_ANGLE_INTERMEDIATE;
 
                     break;
 
                 case BASKET:
-                    setServoPosition(LINEAR_ANGLE_BASKET, ROTATION_ANGLE_BASKET);
+                    linearAngle = LINEAR_ANGLE_BASKET;
+                    rotationAngle = ROTATION_ANGLE_FORWARD;
+
+                    break;
+
+                case FENCE:
+                    linearAngle = LINEAR_ANGLE_FENCE;
+                    rotationAngle = ROTATION_ANGLE_FORWARD;
+
+                    break;
+
+                case SPECIMEN_RELEASE:
+                    linearAngle = LINEAR_ANGLE_INIT;
+                    rotationAngle = ROTATION_ANGLE_FORWARD;
 
                     break;
             }
         }
 
+        if (lastLinearAngle != linearAngle || lastRotationAngle != rotationAngle) {
+            setServoPosition(linearAngle, rotationAngle);
+        }
+
         lastState = state;
+
+        lastLinearAngle = linearAngle;
+        lastRotationAngle = rotationAngle;
     }
 
     public void setState(DifferentialStates state) {
         this.state = state;
+    }
+
+    public void rotateDifferentialRight() {
+        rotationAngle = ROTATION_ANGLE_FORWARD;
+    }
+
+    public void rotateDifferentialLeft() {
+        rotationAngle = ROTATION_ANGLE_REVERSE;
     }
 
     public void closeClaw() {

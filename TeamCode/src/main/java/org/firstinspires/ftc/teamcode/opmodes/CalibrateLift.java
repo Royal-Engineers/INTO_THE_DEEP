@@ -16,10 +16,8 @@ import org.firstinspires.ftc.teamcode.robot.StaticVariables;
 public class CalibrateLift extends OpMode {
     private RobotHardware robot;
     private Differential differential;
-    private Lift lift;
 
-    public static double linearAngle = 0.03, rotationAngle = 0;
-    public static int position = 0;
+    public static double linearAngle = 0.1, rotationAngle = 0;
 
     @Override
     public void init() {
@@ -29,19 +27,12 @@ public class CalibrateLift extends OpMode {
         robot.init();
 
         differential = new Differential(robot);
-        lift = new Lift(robot);
+
     }
 
     @Override
     public void loop() {
         differential.setServoPosition(linearAngle, rotationAngle);
-        differential.closeClaw();
-
-        lift.motorDown.setTargetPosition(position);
-        lift.motorUp.setTargetPosition(position);
-
-        lift.motorDown.setPower(0.8);
-        lift.motorUp.setPower(0.8);
 
         robot.update();
         telemetry.update();

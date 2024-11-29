@@ -5,14 +5,22 @@ import static org.firstinspires.ftc.teamcode.robot.StaticVariables.gamepad2;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.hardwareMap;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.lastgamepad;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.lastgamepad2;
+import static org.firstinspires.ftc.teamcode.robot.StaticVariables.robotH;
+import static org.firstinspires.ftc.teamcode.robot.StaticVariables.robotX;
+import static org.firstinspires.ftc.teamcode.robot.StaticVariables.robotY;
+import static org.firstinspires.ftc.teamcode.robot.StaticVariables.telemetry;
 
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.teamcode.objects.drive.Odometry;
 
 import java.util.List;
 
@@ -32,6 +40,9 @@ public class RobotHardware {
 
     public RevColorSensorV3 colorSensorLeft, colorSensorCenter, colorSensorRight;
 
+    public Odometry odometry;
+    private Pose2D pos;
+
 
     public void init() {
         // HUBS
@@ -46,6 +57,13 @@ public class RobotHardware {
         motorFrontLeft = hardwareMap.get(DcMotor.class, "motorFrontLeft");
         motorBackRight = hardwareMap.get(DcMotor.class, "motorBackRight");
         motorBackLeft = hardwareMap.get(DcMotor.class, "motorBackLeft");
+
+        // ODOMETRY
+        odometry = hardwareMap.get(Odometry.class, "odometry");
+        odometry.setOffsets(0,0);
+        odometry.setEncoderResolution(Odometry.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+        odometry.setEncoderDirections(Odometry.EncoderDirection.FORWARD, Odometry.EncoderDirection.FORWARD);
+        odometry.resetPosAndIMU();
 
         // INTAKE
         motorExtendo = hardwareMap.get(DcMotor.class, "motorExtendo");
@@ -83,8 +101,20 @@ public class RobotHardware {
             hub.clearBulkCache();
         }
 
+        odometry.update();
+
+        pos = odometry.getPosition();
+
+        robotX = pos.getX(DistanceUnit.CM);
+        robotY = pos.getY(DistanceUnit.CM);
+        robotH = pos.getHeading(AngleUnit.DEGREES);
+
         lastgamepad.copy(gamepad);
         lastgamepad2.copy(gamepad2);
+
+        telemetry.addData("X:", robotX);
+        telemetry.addData("Y:", robotY);
+        telemetry.addData("H:", robotH);
     }
 
 }

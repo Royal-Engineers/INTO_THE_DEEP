@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.robot;
 
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.telemetry;
 
-import org.firstinspires.ftc.teamcode.objects.Chassis;
+import org.firstinspires.ftc.teamcode.objects.drive.Chassis;
 import org.firstinspires.ftc.teamcode.objects.Claw;
 import org.firstinspires.ftc.teamcode.objects.Differential;
 import org.firstinspires.ftc.teamcode.objects.Extendo;

@@ -39,8 +39,8 @@ public class Claw {
         PICK_UP,
         INIT;
     }
-    public double RotationScan = 0.03, RotationPick_Up = 0.57, RotationInit = 0.57, RotationTransfer = 0.57;
-    public double WristScan = 0.67, WristPick_Up = 0.65, WristInit = 0.38, WristTransfer = 0.18;
+    public double RotationInit = 0.57, RotationTransfer = 0.57;
+    public double WristScan = 0.75, WristPick_Up = 0.75, WristInit = 0.38, WristTransfer = 0.18;
     private double RotationPos = 0.0d, WristPos = 0.0d;
     WristState m_WristState = WristState.INIT, m_LastWristState = WristState.INIT;
 
@@ -92,7 +92,6 @@ public class Claw {
                 WristPos = WristPick_Up;
                 break;
             case SCAN:
-                RotationPos = RotationScan;
                 WristPos = WristScan;
                 break;
 

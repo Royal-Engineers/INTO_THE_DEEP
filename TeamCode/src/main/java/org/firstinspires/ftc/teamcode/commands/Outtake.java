@@ -14,6 +14,7 @@ public class Outtake {
         HIGH_CHAMBER,
         LOW_BASKET,
         HIGH_BASKET,
+        FENCE,
         FINISH;
     }
 
@@ -32,13 +33,13 @@ public class Outtake {
         if (state != lastState) {
             switch(state) {
                 case LOW_CHAMBER:
-                    differential.setState(Differential.DifferentialStates.BASKET);
+                    differential.setState(Differential.DifferentialStates.SPECIMEN_RELEASE);
                     lift.setState(Lift.LiftStates.LOW_CHAMBER);
 
                     break;
 
                 case HIGH_CHAMBER:
-                    differential.setState(Differential.DifferentialStates.BASKET);
+                    differential.setState(Differential.DifferentialStates.SPECIMEN_RELEASE);
                     lift.setState(Lift.LiftStates.HIGH_CHAMBER);
 
                     break;
@@ -60,6 +61,12 @@ public class Outtake {
                     lift.setState(Lift.LiftStates.INIT);
 
                     state = OuttakeStates.DISABLED;
+                    break;
+
+                case FENCE:
+                    differential.setState(Differential.DifferentialStates.FENCE);
+                    lift.setState(Lift.LiftStates.INIT);
+
                     break;
             }
         }
