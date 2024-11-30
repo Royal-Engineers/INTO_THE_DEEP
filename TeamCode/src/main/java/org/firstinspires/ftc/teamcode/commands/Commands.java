@@ -17,9 +17,12 @@ import org.firstinspires.ftc.teamcode.objects.Extendo;
 import org.firstinspires.ftc.teamcode.objects.Lift;
 import org.firstinspires.ftc.teamcode.objects.Virtual4Bar;
 import org.firstinspires.ftc.teamcode.robot.AllObjects;
+import org.firstinspires.ftc.teamcode.robot.RobotHardware;
 
 @Config
 public class Commands {
+    private RobotHardware robot;
+
     public Chassis chassis;
     public Extendo extendo;
     public Lift lift;
@@ -31,13 +34,15 @@ public class Commands {
     public Intake intake;
     public Outtake outtake;
 
-    public static double Ktrigger = 6;
+    public static double Ktrigger = 10;
     public static double Krotation = 0.02;
     private double intakeClawRotation;
 
     private Outtake.OuttakeStates outtakePosition = Outtake.OuttakeStates.DISABLED;
 
-    public void init(AllObjects objects) {
+    public void init(AllObjects objects, RobotHardware robot) {
+        this.robot = robot;
+
         chassis = objects.chassis;
         extendo = objects.extendo;
         lift = objects.lift;
@@ -54,6 +59,10 @@ public class Commands {
         // CHASISS
 
         chassis.setMovement(gamepad.left_stick_x, -gamepad.left_stick_y, gamepad.right_stick_x);
+
+        if (gamepad.options && !lastgamepad.options) {
+            robot.odometry.recalibrateIMU();
+        }
 
         // LIFT
 
@@ -94,13 +103,6 @@ public class Commands {
 
         if (gamepad.left_bumper && !lastgamepad.left_bumper) {
             outtake.setState(Outtake.OuttakeStates.FINISH);
-        }
-
-        if (gamepad.triangle && !lastgamepad.triangle) {
-            if (lift.getState() == Lift.LiftStates.INIT)
-                lift.setState(Lift.LiftStates.LOW_CHAMBER);
-            else
-                lift.setState(Lift.LiftStates.INIT);
         }
 
         //DIFFERENTIAL

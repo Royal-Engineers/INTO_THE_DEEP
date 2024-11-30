@@ -42,13 +42,13 @@ public class Extendo {
 
                 case EXTENDED:
                     motor.setTargetPosition(EXTENDED);
-                    motor.setPower(1);
+                    motor.setPower(0.8);
 
                     break;
 
                 case TRANSFER:
                     motor.setTargetPosition(TRANSFER);
-                    motor.setPower(0.3);
+                    motor.setPower(0.5);
             }
         }
 

@@ -20,7 +20,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
-import org.firstinspires.ftc.teamcode.objects.drive.Odometry;
+import org.firstinspires.ftc.teamcode.objects.drive.GoBildaPinpointDriver;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class RobotHardware {
 
     public RevColorSensorV3 colorSensorLeft, colorSensorCenter, colorSensorRight;
 
-    public Odometry odometry;
+    public GoBildaPinpointDriver odometry;
     private Pose2D pos;
 
 
@@ -59,10 +59,10 @@ public class RobotHardware {
         motorBackLeft = hardwareMap.get(DcMotor.class, "motorBackLeft");
 
         // ODOMETRY
-        odometry = hardwareMap.get(Odometry.class, "odometry");
-        odometry.setOffsets(0,0);
-        odometry.setEncoderResolution(Odometry.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        odometry.setEncoderDirections(Odometry.EncoderDirection.FORWARD, Odometry.EncoderDirection.FORWARD);
+        odometry = hardwareMap.get(GoBildaPinpointDriver.class, "odometry");
+        odometry.setOffsets(-90,-140);
+        odometry.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+        odometry.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.FORWARD);
         odometry.resetPosAndIMU();
 
         // INTAKE
@@ -105,9 +105,9 @@ public class RobotHardware {
 
         pos = odometry.getPosition();
 
-        robotX = pos.getX(DistanceUnit.CM);
-        robotY = pos.getY(DistanceUnit.CM);
-        robotH = pos.getHeading(AngleUnit.DEGREES);
+        robotX = - pos.getY(DistanceUnit.CM);
+        robotY = pos.getX(DistanceUnit.CM);
+        robotH = pos.getHeading(AngleUnit.DEGREES) + 90;
 
         lastgamepad.copy(gamepad);
         lastgamepad2.copy(gamepad2);

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.objects.drive;
 
+import static org.firstinspires.ftc.teamcode.robot.StaticVariables.robotH;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
@@ -30,7 +32,7 @@ public class Chassis {
     }
     public void update() {
         power = Math.sqrt(Math.pow(vx, 2) + Math.pow(vy, 2));
-        theta = Math.atan2(vy, vx) - Math.PI / 4;
+        theta = Math.atan2(vy, vx) - Math.PI / 4 - Math.toRadians(robotH);
 
         sin = Math.sin(theta); cos = Math.cos(theta);
         maxx = Math.max(Math.abs(sin), Math.abs(cos));

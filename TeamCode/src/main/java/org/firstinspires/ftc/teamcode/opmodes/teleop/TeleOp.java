@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes;
+package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
@@ -24,7 +24,7 @@ public class TeleOp extends OpMode {
         objects.init(robot);
 
         commands = new Commands();
-        commands.init(objects);
+        commands.init(objects, robot);
     }
 
     @Override
