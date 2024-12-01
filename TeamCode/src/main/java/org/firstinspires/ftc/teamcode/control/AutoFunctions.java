@@ -14,7 +14,7 @@ public class AutoFunctions {
     Telemetry dashboardTelemetry = dashboard.getTelemetry();
 
     private PIDF distancePID = new PIDF();
-    public static double distanceP = 0.05, distanceI = 0.001, distanceD = 0.0005, distanceF = 0;
+    public static double distanceP = 0.05, distanceI = 0.001, distanceD = 0.008, distanceF = 0;
 
     private double targetX, targetY, maximumSpeed;
     private double robotVelocityX, robotVelocityY;
@@ -34,12 +34,12 @@ public class AutoFunctions {
 
         double distance = Math.sqrt((Math.pow(deltaX, 2) + Math.pow(deltaY, 2)));
 
-        double absoluteAngle = Math.atan2(deltaY, deltaX) + Math.toRadians(90);
+        double absoluteAngle = Math.atan2(deltaY, deltaX);
 
         distancePID.setCoefficients(distanceP, distanceI, distanceD, distanceF);
         double speed = Math.min(distancePID.getOutput(distance), maximumSpeed);
 
-        if (distance < 2)
+        if (distance < 1)
             speed = 0;
 
         robotVelocityX = Math.cos(absoluteAngle) * speed;

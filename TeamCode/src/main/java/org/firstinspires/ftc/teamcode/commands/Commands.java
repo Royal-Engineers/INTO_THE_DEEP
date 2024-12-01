@@ -61,7 +61,7 @@ public class Commands {
         chassis.setMovement(gamepad.left_stick_x, -gamepad.left_stick_y, gamepad.right_stick_x);
 
         if (gamepad.options && !lastgamepad.options) {
-            robot.odometry.recalibrateIMU();
+            robot.odometry.resetPosAndIMU();
         }
 
         // LIFT

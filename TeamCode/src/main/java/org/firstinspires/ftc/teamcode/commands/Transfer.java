@@ -84,7 +84,7 @@ public class Transfer {
 
                 state = TransferStates.WAITING;
                 nextState = TransferStates.INTERMEDIATE;
-                timer.reset(); waitingTime = 0.5;
+                timer.reset(); waitingTime = 0.2;
 
                 break;
 

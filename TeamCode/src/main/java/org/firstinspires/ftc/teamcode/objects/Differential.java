@@ -36,7 +36,7 @@ public class Differential {
     private final double ROTATION_ANGLE_REVERSE = -0.28;
 
     private final double CLAW_OPEN = 0.45;
-    private final double CLAW_TRANSFER = 0.55;
+    private final double CLAW_TRANSFER = 0.6;
     private final double CLAW_CLOSED = 0.8;
 
     public void setServoPosition(double linearAngle, double rotationAngle) {
