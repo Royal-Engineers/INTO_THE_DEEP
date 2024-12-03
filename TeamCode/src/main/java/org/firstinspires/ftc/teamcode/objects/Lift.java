@@ -72,8 +72,8 @@ public class Lift {
 
                     position = LOW_BASKET;
 
-                    motorUp.setPower(0.9);
-                    motorDown.setPower(0.9);
+                    motorUp.setPower(1);
+                    motorDown.setPower(1);
                     break;
 
                 case HIGH_BASKET:
@@ -82,8 +82,8 @@ public class Lift {
 
                     position = HIGH_BASKET;
 
-                    motorUp.setPower(0.9);
-                    motorDown.setPower(0.9);
+                    motorUp.setPower(1);
+                    motorDown.setPower(1);
                     break;
 
                 case LOW_CHAMBER:
@@ -92,8 +92,8 @@ public class Lift {
 
                     position = LOW_CHAMBER;
 
-                    motorUp.setPower(0.9);
-                    motorDown.setPower(0.9);
+                    motorUp.setPower(1);
+                    motorDown.setPower(1);
                     break;
 
                 case HIGH_CHAMBER:
@@ -102,8 +102,8 @@ public class Lift {
 
                     position = HIGH_CHAMBER;
 
-                    motorUp.setPower(0.9);
-                    motorDown.setPower(0.9);
+                    motorUp.setPower(1);
+                    motorDown.setPower(1);
                     break;
 
             }

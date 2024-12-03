@@ -73,7 +73,7 @@ public class Transfer {
                 if (!differential.transferDetection.getState()) {
                     state = TransferStates.WAITING;
                     nextState = TransferStates.PICK_UP;
-                    timer.reset(); waitingTime = 0.5;
+                    timer.reset(); waitingTime = 0.2;
                 }
 
                 break;
@@ -94,7 +94,7 @@ public class Transfer {
 
                 state = TransferStates.WAITING;
                 nextState = TransferStates.FINISH;
-                timer.reset(); waitingTime = 0.5;
+                timer.reset(); waitingTime = 0.2;
                 break;
 
             case FINISH:
@@ -103,7 +103,7 @@ public class Transfer {
 
                 state = TransferStates.WAITING;
                 nextState = TransferStates.DISABLED;
-                timer.reset(); waitingTime = 0.5;
+                timer.reset(); waitingTime = 0.2;
                 break;
         }
     }

@@ -11,10 +11,12 @@ import static org.firstinspires.ftc.teamcode.robot.StaticVariables.robotY;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.telemetry;
 
 import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -38,7 +40,8 @@ public class RobotHardware {
 
     public DigitalChannel transferDetection;
 
-    public RevColorSensorV3 colorSensorLeft, colorSensorCenter, colorSensorRight;
+    public RevColorSensorV3 colorSensorCenter;
+    public Rev2mDistanceSensor distanceSensorLeft, distanceSensorRight;
 
     public GoBildaPinpointDriver odometry;
     private Pose2D pos;
@@ -60,7 +63,7 @@ public class RobotHardware {
 
         // ODOMETRY
         odometry = hardwareMap.get(GoBildaPinpointDriver.class, "odometry");
-        odometry.setOffsets(-90,-140);
+        odometry.setOffsets(109,103);
         odometry.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         odometry.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.FORWARD);
         odometry.resetPosAndIMU();
@@ -74,9 +77,9 @@ public class RobotHardware {
         servoClawWrist = hardwareMap.get(Servo.class, "servoClawWrist");
         servoActiveIntake = hardwareMap.get(CRServo.class, "servoActiveIntake");
 
-        colorSensorLeft = hardwareMap.get(RevColorSensorV3.class, "colorSensorLeft");
+        distanceSensorLeft = hardwareMap.get(Rev2mDistanceSensor.class, "colorSensorLeft");
         colorSensorCenter = hardwareMap.get(RevColorSensorV3.class, "colorSensorCenter");
-        colorSensorRight = hardwareMap.get(RevColorSensorV3.class, "colorSensorRight");
+        distanceSensorRight = hardwareMap.get(Rev2mDistanceSensor.class, "colorSensorRight");
 
         // OUTTAKE
         motorLiftUp = hardwareMap.get(DcMotor.class, "motorLiftUp");

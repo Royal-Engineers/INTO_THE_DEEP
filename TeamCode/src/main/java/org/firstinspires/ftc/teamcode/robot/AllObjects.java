@@ -26,7 +26,7 @@ public class AllObjects {
         differential = new Differential(robot);
         v4b = new Virtual4Bar(robot);
         claw = new Claw(robot);
-        sensorTrio = new SensorTrio(robot.colorSensorLeft, robot.colorSensorCenter, robot.colorSensorRight);
+        sensorTrio = new SensorTrio(robot.distanceSensorLeft, robot.colorSensorCenter, robot.distanceSensorRight);
     }
 
     public void update() {
@@ -38,11 +38,5 @@ public class AllObjects {
         claw.Update();
 
         telemetry.addData("Pozitie Extendo", extendo.motor.getCurrentPosition());
-
-        telemetry.addLine("");
-
-        telemetry.addData("RedLeft", sensorTrio.getLeftRed());
-        telemetry.addData("RedCenter", sensorTrio.getCenterRed());
-        telemetry.addData("RedRight", sensorTrio.getRightRed());
     }
 }

@@ -9,6 +9,9 @@ public class Extendo {
     public enum ExtendoStates {
         INIT,
         TRANSFER,
+        BASKET_AUTO_LEFT,
+        BASKET_AUTO_CENTER,
+        BASKET_AUTO_RIGHT,
         EXTENDED;
     }
     private ExtendoStates state, lastState;
@@ -16,6 +19,9 @@ public class Extendo {
     private final int INIT = 0;
     private final int EXTENDED = 240;
     private final int TRANSFER = 50;
+    public final int BASKET_AUTO_LEFT = 192;
+    public final int BASKET_AUTO_CENTER = 170;
+    public final int BASKET_AUTO_RIGHT = 185;
 
 
     public Extendo(RobotHardware robot) {
@@ -48,7 +54,27 @@ public class Extendo {
 
                 case TRANSFER:
                     motor.setTargetPosition(TRANSFER);
-                    motor.setPower(0.5);
+                    motor.setPower(0.9);
+
+                    break;
+
+                case BASKET_AUTO_LEFT:
+                    motor.setTargetPosition(BASKET_AUTO_LEFT);
+                    motor.setPower(1);
+
+                    break;
+
+                case BASKET_AUTO_CENTER:
+                    motor.setTargetPosition(BASKET_AUTO_CENTER);
+                    motor.setPower(1);
+
+                    break;
+
+                case BASKET_AUTO_RIGHT:
+                    motor.setTargetPosition(BASKET_AUTO_RIGHT);
+                    motor.setPower(1);
+
+                    break;
             }
         }
 
