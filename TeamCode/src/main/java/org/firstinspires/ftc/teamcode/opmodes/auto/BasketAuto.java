@@ -5,11 +5,13 @@ import static org.firstinspires.ftc.teamcode.robot.StaticVariables.robotH;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.robotX;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.robotY;
 
+import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.commands.Commands;
 import org.firstinspires.ftc.teamcode.commands.Transfer;
 import org.firstinspires.ftc.teamcode.control.AutoFunctions;
@@ -25,6 +27,9 @@ import org.firstinspires.ftc.teamcode.robot.StaticVariables;
 @Config
 @Autonomous (name = "BasketAuto")
 public class BasketAuto extends OpMode {
+    FtcDashboard dashboard = FtcDashboard.getInstance();
+    Telemetry dashboardTelemetry = dashboard.getTelemetry();
+
     private RobotHardware robot;
     private AllObjects objects;
     private AutoFunctions operations;
@@ -85,9 +90,11 @@ public class BasketAuto extends OpMode {
 
     public static double x1 = 30, y1 = 35, h1 = 135; // front of the basket
     public static double x2 = 20, y2 = 40, h2 = 135; // scoring position
-    public static double x3 = 30, y3 = 35, h3 = 165; // sample left
-    public static double x4 = 30, y4 = 35, h4 = 185; // sample center
-    public static double x5 = 50, y5 = 20, h5 = 222; // sample right
+    public static double x3 = 23, y3 = 30, h3 = 166; // sample left
+    public static double x4 = 23, y4 = 30, h4 = 188; // sample center
+    public static double x5 = 45, y5 = 15, h5 = 225; // sample right
+    public static double x6 = 150, y6 = 0, h6 = 90; // ready for parking
+    public static double x7 = 150, y7 = -20, h7 = 90; // parking
 
     private AutoInstructions state, nextState;
     private ElapsedTime timer = new ElapsedTime();
@@ -146,12 +153,13 @@ public class BasketAuto extends OpMode {
                 lift.setState(Lift.LiftStates.HIGH_BASKET);
                 differential.setState(Differential.DifferentialStates.BASKET);
 
-                state = AutoInstructions.WAITING;
-                nextState = AutoInstructions.INSTRUCTION_3;
-                waitingTime = 0.5; timer.reset();
+                state = AutoInstructions.INSTRUCTION_3;
                 break;
 
             case INSTRUCTION_3:
+                if (!lift.targetReached())
+                    break;
+
                 targetX = x2; targetY = y2; targetH = h2;
 
                 if (targetReached()) {
@@ -222,12 +230,13 @@ public class BasketAuto extends OpMode {
                 lift.setState(Lift.LiftStates.HIGH_BASKET);
                 differential.setState(Differential.DifferentialStates.BASKET);
 
-                state = AutoInstructions.WAITING;
-                nextState = AutoInstructions.INSTRUCTION_11;
-                waitingTime = 0.5; timer.reset();
+                state = AutoInstructions.INSTRUCTION_11;
                 break;
 
             case INSTRUCTION_11:
+                if (!lift.targetReached())
+                    break;
+
                 targetX = x2; targetY = y2; targetH = h2;
 
                 if (targetReached()) {
@@ -298,12 +307,13 @@ public class BasketAuto extends OpMode {
                 lift.setState(Lift.LiftStates.HIGH_BASKET);
                 differential.setState(Differential.DifferentialStates.BASKET);
 
-                state = AutoInstructions.WAITING;
-                nextState = AutoInstructions.INSTRUCTION_19;
-                waitingTime = 0.5; timer.reset();
+                state = AutoInstructions.INSTRUCTION_19;
                 break;
 
             case INSTRUCTION_19:
+                if (!lift.targetReached())
+                    break;
+
                 targetX = x2; targetY = y2; targetH = h2;
 
                 if (targetReached()) {
@@ -382,12 +392,13 @@ public class BasketAuto extends OpMode {
                 lift.setState(Lift.LiftStates.HIGH_BASKET);
                 differential.setState(Differential.DifferentialStates.BASKET);
 
-                state = AutoInstructions.WAITING;
-                nextState = AutoInstructions.INSTRUCTION_28;
-                waitingTime = 0.5; timer.reset();
+                state = AutoInstructions.INSTRUCTION_28;
                 break;
 
             case INSTRUCTION_28:
+                if (!lift.targetReached())
+                    break;
+
                 targetX = x2; targetY = y2; targetH = h2;
 
                 if (targetReached()) {
@@ -412,6 +423,7 @@ public class BasketAuto extends OpMode {
                 nextState = AutoInstructions.INSTRUCTION_31;
                 waitingTime = 0.5; timer.reset();
                 break;
+
         }
 
         operations.goToPoint();
@@ -420,12 +432,15 @@ public class BasketAuto extends OpMode {
 
         transfer.update();
 
+        dashboardTelemetry.addData("Pozitie extendo", extendo.motor.getCurrentPosition());
+
         objects.update();
         robot.update();
         telemetry.update();
+        dashboardTelemetry.update();
     }
 
     private boolean targetReached() {
-        return (Math.sqrt(Math.pow(robotX - targetX, 2) + Math.pow(robotY - targetY, 2)) < 3 && Math.abs(robotH - targetH) < 5);
+        return (Math.sqrt(Math.pow(robotX - targetX, 2) + Math.pow(robotY - targetY, 2)) < 3 && Math.abs(robotH - targetH) < 3);
     }
 }

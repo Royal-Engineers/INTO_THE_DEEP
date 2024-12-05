@@ -21,7 +21,7 @@ public class Lift {
 
     private final int INIT = 0;
     private final int LOW_BASKET = 300;
-    private final int HIGH_BASKET = 700;
+    private final int HIGH_BASKET = 680;
     private final int LOW_CHAMBER = 35;
     private final int HIGH_CHAMBER = 310;
     private int position;
@@ -62,8 +62,8 @@ public class Lift {
 
                     position = INIT;
 
-                    motorUp.setPower(0.8);
-                    motorDown.setPower(0.8);
+                    motorUp.setPower(0.6);
+                    motorDown.setPower(0.6);
                     break;
 
                 case LOW_BASKET:
@@ -148,6 +148,10 @@ public class Lift {
 
     public LiftStates getState() {
         return state;
+    }
+
+    public boolean targetReached() {
+        return (Math.abs(motorUp.getCurrentPosition() - motorUp.getTargetPosition()) < 5);
     }
 
 }

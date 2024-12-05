@@ -16,7 +16,7 @@ public class AutoFunctions {
 
     private PIDF distancePID = new PIDF(), turningPID = new PIDF();
     public static double distanceP = 0.06, distanceI = 0.003, distanceD = 0.008, distanceF = 0;
-    public static double turningP = 0.02, turningI = 0.001, turningD = 0, turningF = 0;
+    public static double turningP = 0.05, turningI = 0, turningD = 0.003, turningF = 0;
 
     private double targetX, targetY, targetH, maximumSpeed;
     private double robotVelocityX, robotVelocityY, robotVelocityW;
@@ -63,9 +63,9 @@ public class AutoFunctions {
         robotVelocityW = turningSpeed;
 
         dashboardTelemetry.addData("Speed", speed);
-        dashboardTelemetry.addData("X", robotX);
-        dashboardTelemetry.addData("Y", robotY);
-        dashboardTelemetry.addData("H", robotH);
+        dashboardTelemetry.addData("deltaX", deltaX);
+        dashboardTelemetry.addData("deltaY", deltaY);
+        dashboardTelemetry.addData("deltaH", deltaH);
 
         dashboardTelemetry.update();
     }

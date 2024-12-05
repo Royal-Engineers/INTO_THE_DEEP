@@ -9,9 +9,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.commands.Intake;
 import org.firstinspires.ftc.teamcode.control.AutoFunctions;
+import org.firstinspires.ftc.teamcode.objects.Claw;
 import org.firstinspires.ftc.teamcode.objects.Differential;
+import org.firstinspires.ftc.teamcode.objects.Extendo;
 import org.firstinspires.ftc.teamcode.objects.Lift;
+import org.firstinspires.ftc.teamcode.objects.Virtual4Bar;
 import org.firstinspires.ftc.teamcode.objects.drive.Chassis;
 import org.firstinspires.ftc.teamcode.robot.AllObjects;
 import org.firstinspires.ftc.teamcode.robot.RobotHardware;
@@ -25,9 +29,14 @@ public class PositionsAuto extends OpMode {
     private AutoFunctions operations;
 
     private Chassis chassis;
+    private Extendo extendo;
+    private Virtual4Bar v4b;
+    private Claw claw;
 
     public static double targetX = 0, targetY = 0, targetH = 90, maximumSpeed = 1;
     private double lastTargetX = -1, lastTargetY = -1, lastTargetH = -1;
+
+    public static int extendoPosition = 0;
 
     @Override
     public void init() {
@@ -40,6 +49,9 @@ public class PositionsAuto extends OpMode {
         objects.init(robot);
 
         chassis = objects.chassis;
+        extendo = objects.extendo;
+        v4b = objects.v4b;
+        claw = objects.claw;
 
         operations = new AutoFunctions();
     }
@@ -52,9 +64,14 @@ public class PositionsAuto extends OpMode {
 
         lastTargetX = targetX; lastTargetY = targetY; lastTargetH = targetH;
 
+        extendo.setPosition(extendoPosition);
+
         operations.goToPoint();
 
         chassis.setMovement(operations.getRobotVelocityX(), operations.getRobotVelocityY(), operations.getRobotVelocityW());
+
+        v4b.setState(Virtual4Bar.V4BStates.SCANNING);
+        claw.setWristState(Claw.WristState.SCAN);
 
         objects.update();
         robot.update();

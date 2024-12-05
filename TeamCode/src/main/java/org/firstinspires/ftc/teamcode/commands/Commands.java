@@ -139,13 +139,19 @@ public class Commands {
                 intake.setState(Intake.IntakeStates.FINISH);
         }
 
-        if (gamepad.circle) {
-            if (intake.getState() == Intake.IntakeStates.SCANNING)
+        if (intake.getState() == Intake.IntakeStates.SCANNING) {
+            if (gamepad.circle)
                 intake.setState(Intake.IntakeStates.PICK_UP);
+            if (gamepad.triangle)
+                claw.setIntakeState(Claw.IntakeState.Outake);
         }
-        else if (intake.getState() == Intake.IntakeStates.PICK_UP) {
+
+
+        if ((!gamepad.triangle && lastgamepad.triangle) || (!gamepad.circle && lastgamepad.circle)) {
             intake.setState(Intake.IntakeStates.SCANNING);
+            claw.setIntakeState(Claw.IntakeState.OFF);
         }
+
 
         if (Math.abs(gamepad2.right_stick_x) > 0.2) {
             intakeClawRotation = claw.getClawRotation();

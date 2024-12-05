@@ -73,6 +73,10 @@ public class Intake {
                 return;
         }*/
 
+        if (state == IntakeStates.SCANNING && lastState != IntakeStates.SCANNING) {
+            claw.setIntakeState(Claw.IntakeState.OFF);
+        }
+
         switch (state) {
             case WAITING:
                 if (timer.seconds() > waitingTime)
@@ -83,7 +87,6 @@ public class Intake {
             case SCANNING:
                 v4b.setState(Virtual4Bar.V4BStates.SCANNING);
                 claw.setWristState(Claw.WristState.SCAN);
-                claw.setIntakeState(Claw.IntakeState.OFF);
                 extendo.setState(Extendo.ExtendoStates.EXTENDED);
 
 
