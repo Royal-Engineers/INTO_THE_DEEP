@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode.objects;
+package org.firstinspires.ftc.teamcode.objects.outtake;
 
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.telemetry;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.robot.RobotHardware;
-
+@Config
 public class Lift {
     public DcMotor motorUp, motorDown;
     public enum LiftStates {
@@ -15,15 +15,19 @@ public class Lift {
         LOW_BASKET,
         HIGH_BASKET,
         LOW_CHAMBER,
-        HIGH_CHAMBER;
+        HIGH_CHAMBER,
+        HIGH_CHAMBER_RELEASE,
+        LOW_CHAMBER_RELEASE;
     }
     private LiftStates state, lastState;
 
-    private final int INIT = 0;
+    private final int INIT = 2;
     private final int LOW_BASKET = 300;
     private final int HIGH_BASKET = 680;
     private final int LOW_CHAMBER = 35;
-    private final int HIGH_CHAMBER = 310;
+    private final int LOW_CHAMBER_RELEASE = 100;
+    public static int HIGH_CHAMBER = 250;
+    public static int HIGH_CHAMBER_RELEASE = 490;
     private int position;
 
     public Lift(RobotHardware robot) {
@@ -72,8 +76,8 @@ public class Lift {
 
                     position = LOW_BASKET;
 
-                    motorUp.setPower(1);
-                    motorDown.setPower(1);
+                    motorUp.setPower(0.8);
+                    motorDown.setPower(0.8);
                     break;
 
                 case HIGH_BASKET:
@@ -82,8 +86,8 @@ public class Lift {
 
                     position = HIGH_BASKET;
 
-                    motorUp.setPower(1);
-                    motorDown.setPower(1);
+                    motorUp.setPower(0.8);
+                    motorDown.setPower(0.8);
                     break;
 
                 case LOW_CHAMBER:
@@ -92,8 +96,8 @@ public class Lift {
 
                     position = LOW_CHAMBER;
 
-                    motorUp.setPower(1);
-                    motorDown.setPower(1);
+                    motorUp.setPower(0.8);
+                    motorDown.setPower(0.8);
                     break;
 
                 case HIGH_CHAMBER:
@@ -101,6 +105,26 @@ public class Lift {
                     motorDown.setTargetPosition(HIGH_CHAMBER);
 
                     position = HIGH_CHAMBER;
+
+                    motorUp.setPower(0.8);
+                    motorDown.setPower(0.8);
+                    break;
+
+                case LOW_CHAMBER_RELEASE:
+                    motorUp.setTargetPosition(LOW_CHAMBER_RELEASE);
+                    motorDown.setTargetPosition(LOW_CHAMBER_RELEASE);
+
+                    position = LOW_CHAMBER_RELEASE;
+
+                    motorUp.setPower(1);
+                    motorDown.setPower(1);
+                    break;
+
+                case HIGH_CHAMBER_RELEASE:
+                    motorUp.setTargetPosition(HIGH_CHAMBER_RELEASE);
+                    motorDown.setTargetPosition(HIGH_CHAMBER_RELEASE);
+
+                    position = HIGH_CHAMBER_RELEASE;
 
                     motorUp.setPower(1);
                     motorDown.setPower(1);
@@ -151,7 +175,7 @@ public class Lift {
     }
 
     public boolean targetReached() {
-        return (Math.abs(motorUp.getCurrentPosition() - motorUp.getTargetPosition()) < 5);
+        return (Math.abs(motorUp.getCurrentPosition() - motorUp.getTargetPosition()) < 15);
     }
 
 }

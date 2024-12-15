@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.control;
 
+import static org.firstinspires.ftc.teamcode.robot.StaticVariables.dashboardTelemetry;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.robotH;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.robotX;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.robotY;
@@ -11,8 +12,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @Config
 public class AutoFunctions {
-    FtcDashboard dashboard = FtcDashboard.getInstance();
-    Telemetry dashboardTelemetry = dashboard.getTelemetry();
 
     private PIDF distancePID = new PIDF(), turningPID = new PIDF();
     public static double distanceP = 0.06, distanceI = 0.003, distanceD = 0.008, distanceF = 0;

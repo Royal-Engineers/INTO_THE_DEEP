@@ -3,14 +3,13 @@ package org.firstinspires.ftc.teamcode.opmodes.teleop;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.objects.Differential;
-import org.firstinspires.ftc.teamcode.objects.Extendo;
-import org.firstinspires.ftc.teamcode.objects.Lift;
+import org.firstinspires.ftc.teamcode.objects.intake.Extendo;
+import org.firstinspires.ftc.teamcode.objects.outtake.Lift;
 import org.firstinspires.ftc.teamcode.robot.RobotHardware;
 import org.firstinspires.ftc.teamcode.robot.StaticVariables;
 
 @TeleOp(name = "CalibratePositions")
-public class CalibratePositions extends OpMode {
+public class PositionsCalibration extends OpMode {
     private RobotHardware robot;
     private Extendo extendo;
     private Lift lift;

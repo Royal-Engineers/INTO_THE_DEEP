@@ -1,7 +1,9 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import org.firstinspires.ftc.teamcode.objects.Differential;
-import org.firstinspires.ftc.teamcode.objects.Lift;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.teamcode.objects.outtake.Differential;
+import org.firstinspires.ftc.teamcode.objects.outtake.Lift;
 import org.firstinspires.ftc.teamcode.robot.AllObjects;
 
 public class Outtake {
@@ -9,16 +11,21 @@ public class Outtake {
     private Differential differential;
 
     public enum OuttakeStates {
+        WAITING,
         DISABLED,
         LOW_CHAMBER,
         HIGH_CHAMBER,
         LOW_BASKET,
         HIGH_BASKET,
         FENCE,
+        READY_TO_RELEASE,
+        RELEASE,
         FINISH;
     }
 
-    private OuttakeStates state, lastState;
+    private OuttakeStates state, lastState, nextState;
+    private ElapsedTime timer;
+    private double waitingTime;
 
     public Outtake(AllObjects objects) {
         lift = objects.lift;
@@ -26,12 +33,22 @@ public class Outtake {
 
         state = OuttakeStates.DISABLED;
         lastState = OuttakeStates.DISABLED;
+        nextState = OuttakeStates.DISABLED;
+
+        timer = new ElapsedTime();
     }
 
     public void update() {
 
-        if (state != lastState) {
+        if (state != lastState || nextState != OuttakeStates.DISABLED) {
             switch(state) {
+                case WAITING:
+                    if (timer.seconds() > waitingTime) {
+                        state = nextState;
+                    }
+
+                    break;
+
                 case LOW_CHAMBER:
                     differential.setState(Differential.DifferentialStates.SPECIMEN_RELEASE);
                     lift.setState(Lift.LiftStates.LOW_CHAMBER);
@@ -67,6 +84,28 @@ public class Outtake {
                     differential.setState(Differential.DifferentialStates.FENCE);
                     lift.setState(Lift.LiftStates.INIT);
 
+                    nextState = OuttakeStates.DISABLED;
+
+                    break;
+
+                case READY_TO_RELEASE:
+                    if (lastState == OuttakeStates.LOW_CHAMBER)
+                        lift.setState(Lift.LiftStates.LOW_CHAMBER_RELEASE);
+
+                    if (lastState == OuttakeStates.HIGH_CHAMBER)
+                        lift.setState(Lift.LiftStates.HIGH_CHAMBER_RELEASE);
+
+                    state = OuttakeStates.WAITING;
+                    nextState = OuttakeStates.RELEASE;
+                    waitingTime = 0.4; timer.reset();
+                    break;
+
+                case RELEASE:
+                    differential.openClaw();
+
+                    state = OuttakeStates.WAITING;
+                    nextState = OuttakeStates.FENCE;
+                    waitingTime = 0.2; timer.reset();
                     break;
             }
         }

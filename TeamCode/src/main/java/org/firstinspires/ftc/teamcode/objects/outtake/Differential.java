@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.objects;
+package org.firstinspires.ftc.teamcode.objects.outtake;
 
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -26,9 +26,9 @@ public class Differential {
 
 
     private final double LINEAR_ANGLE_INIT = 0.06;
-    private final double LINEAR_ANGLE_INTERMEDIATE = 0.1;
+    private final double LINEAR_ANGLE_INTERMEDIATE = 0.13;
     private final double LINEAR_ANGLE_BASKET = 0.45;
-    private final double LINEAR_ANGLE_FENCE = 0.63;
+    private final double LINEAR_ANGLE_FENCE = 0.625;
 
     private final double ROTATION_ANGLE_INIT = 0;
     private final double ROTATION_ANGLE_INTERMEDIATE = 0;

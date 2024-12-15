@@ -3,12 +3,12 @@ package org.firstinspires.ftc.teamcode.robot;
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.telemetry;
 
 import org.firstinspires.ftc.teamcode.objects.drive.Chassis;
-import org.firstinspires.ftc.teamcode.objects.Claw;
-import org.firstinspires.ftc.teamcode.objects.Differential;
-import org.firstinspires.ftc.teamcode.objects.Extendo;
-import org.firstinspires.ftc.teamcode.objects.Lift;
-import org.firstinspires.ftc.teamcode.objects.SensorTrio;
-import org.firstinspires.ftc.teamcode.objects.Virtual4Bar;
+import org.firstinspires.ftc.teamcode.objects.intake.Claw;
+import org.firstinspires.ftc.teamcode.objects.outtake.Differential;
+import org.firstinspires.ftc.teamcode.objects.intake.Extendo;
+import org.firstinspires.ftc.teamcode.objects.outtake.Lift;
+import org.firstinspires.ftc.teamcode.objects.intake.SensorTrio;
+import org.firstinspires.ftc.teamcode.objects.intake.Virtual4Bar;
 
 public class AllObjects {
     public Chassis chassis;

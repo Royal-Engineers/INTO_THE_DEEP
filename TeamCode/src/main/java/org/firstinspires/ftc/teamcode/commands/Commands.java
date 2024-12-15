@@ -11,11 +11,11 @@ import static org.firstinspires.ftc.teamcode.robot.StaticVariables.telemetry;
 import com.acmerobotics.dashboard.config.Config;
 
 import org.firstinspires.ftc.teamcode.objects.drive.Chassis;
-import org.firstinspires.ftc.teamcode.objects.Claw;
-import org.firstinspires.ftc.teamcode.objects.Differential;
-import org.firstinspires.ftc.teamcode.objects.Extendo;
-import org.firstinspires.ftc.teamcode.objects.Lift;
-import org.firstinspires.ftc.teamcode.objects.Virtual4Bar;
+import org.firstinspires.ftc.teamcode.objects.intake.Claw;
+import org.firstinspires.ftc.teamcode.objects.outtake.Differential;
+import org.firstinspires.ftc.teamcode.objects.intake.Extendo;
+import org.firstinspires.ftc.teamcode.objects.outtake.Lift;
+import org.firstinspires.ftc.teamcode.objects.intake.Virtual4Bar;
 import org.firstinspires.ftc.teamcode.robot.AllObjects;
 import org.firstinspires.ftc.teamcode.robot.RobotHardware;
 
@@ -105,6 +105,12 @@ public class Commands {
             outtake.setState(Outtake.OuttakeStates.FINISH);
         }
 
+        if (gamepad.cross && !lastgamepad.cross) {
+            outtake.setState(Outtake.OuttakeStates.READY_TO_RELEASE);
+        }
+
+
+
         //DIFFERENTIAL
 
         if (gamepad.left_stick_button && !lastgamepad.left_stick_button) {
@@ -132,7 +138,7 @@ public class Commands {
 
         if (gamepad.right_stick_button && !lastgamepad.right_stick_button) {
             if (intake.getState() == Intake.IntakeStates.DISABLED) {
-                claw.setClawRotation(0.03);
+                claw.setClawRotation(0.02);
                 initiateIntake = true;
             }
             else

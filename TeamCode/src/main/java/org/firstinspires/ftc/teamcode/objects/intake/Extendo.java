@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.objects;
+package org.firstinspires.ftc.teamcode.objects.intake;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -10,6 +10,7 @@ public class Extendo {
     public enum ExtendoStates {
         INIT,
         TRANSFER,
+        TRANSFER_INTERMEDIATE,
         BASKET_AUTO_LEFT,
         BASKET_AUTO_CENTER,
         BASKET_AUTO_RIGHT,
@@ -20,12 +21,12 @@ public class Extendo {
     private final int INIT = 0;
     private final int EXTENDED = 280;
     private final int TRANSFER = 50;
+    private final int TRANSFER_INTERMEDIATE = 60;
     public static int BASKET_AUTO_LEFT = 280;
     public static int BASKET_AUTO_CENTER = 280;
     public static int BASKET_AUTO_RIGHT = 280;
 
     private double tolerance = 5;
-
 
     public Extendo(RobotHardware robot) {
         motor = robot.motorExtendo;
@@ -51,15 +52,19 @@ public class Extendo {
 
                 case EXTENDED:
                     motor.setTargetPosition(EXTENDED);
-                    motor.setPower(0.8);
+                    motor.setPower(0.7);
 
                     break;
 
                 case TRANSFER:
                     motor.setTargetPosition(TRANSFER);
-                    motor.setPower(0.9);
+                    motor.setPower(0.5);
 
                     break;
+
+                case TRANSFER_INTERMEDIATE:
+                    motor.setTargetPosition(TRANSFER_INTERMEDIATE);
+                    motor.setPower(1);
 
                 case BASKET_AUTO_LEFT:
                     motor.setTargetPosition(BASKET_AUTO_LEFT);
@@ -96,4 +101,9 @@ public class Extendo {
         motor.setTargetPosition(position);
         motor.setPower(1);
     }
+
+    public ExtendoStates getState() {
+        return state;
+    }
+
 }

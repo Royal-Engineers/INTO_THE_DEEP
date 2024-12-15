@@ -1,16 +1,12 @@
 package org.firstinspires.ftc.teamcode.commands;
 
-import static org.firstinspires.ftc.teamcode.robot.StaticVariables.init;
-import static org.firstinspires.ftc.teamcode.robot.StaticVariables.telemetry;
-
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.objects.Claw;
-import org.firstinspires.ftc.teamcode.objects.Differential;
-import org.firstinspires.ftc.teamcode.objects.Extendo;
-import org.firstinspires.ftc.teamcode.objects.Virtual4Bar;
+import org.firstinspires.ftc.teamcode.objects.intake.Claw;
+import org.firstinspires.ftc.teamcode.objects.outtake.Differential;
+import org.firstinspires.ftc.teamcode.objects.intake.Extendo;
+import org.firstinspires.ftc.teamcode.objects.intake.Virtual4Bar;
 import org.firstinspires.ftc.teamcode.robot.AllObjects;
-import org.firstinspires.ftc.teamcode.robot.RobotHardware;
 
 public class Transfer {
     private Extendo extendo;
@@ -61,7 +57,7 @@ public class Transfer {
 
             case INIT:
                 differential.setState(Differential.DifferentialStates.INIT);
-                v4b.setState(Virtual4Bar.V4BStates.INIT);
+                v4b.setState(Virtual4Bar.V4BStates.TRANSFER);
                 claw.setWristState(Claw.WristState.TRANSFER);
                 claw.setIntakeState(Claw.IntakeState.OFF);
                 extendo.setState(Extendo.ExtendoStates.TRANSFER);
@@ -91,6 +87,8 @@ public class Transfer {
             case INTERMEDIATE:
                 differential.setState(Differential.DifferentialStates.INTERMEDIATE);
                 claw.setWristState(Claw.WristState.INIT);
+                v4b.setState(Virtual4Bar.V4BStates.INIT);
+                //extendo.setState(Extendo.ExtendoStates.TRANSFER_INTERMEDIATE);
 
                 state = TransferStates.WAITING;
                 nextState = TransferStates.FINISH;
@@ -106,5 +104,9 @@ public class Transfer {
                 timer.reset(); waitingTime = 0.2;
                 break;
         }
+    }
+
+    public TransferStates getState() {
+        return state;
     }
 }

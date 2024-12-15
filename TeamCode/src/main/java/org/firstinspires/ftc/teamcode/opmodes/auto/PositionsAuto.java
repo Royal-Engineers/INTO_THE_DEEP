@@ -1,21 +1,13 @@
 package org.firstinspires.ftc.teamcode.opmodes.auto;
 
-import static org.firstinspires.ftc.teamcode.robot.StaticVariables.robotH;
-import static org.firstinspires.ftc.teamcode.robot.StaticVariables.robotX;
-import static org.firstinspires.ftc.teamcode.robot.StaticVariables.robotY;
-
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.commands.Intake;
 import org.firstinspires.ftc.teamcode.control.AutoFunctions;
-import org.firstinspires.ftc.teamcode.objects.Claw;
-import org.firstinspires.ftc.teamcode.objects.Differential;
-import org.firstinspires.ftc.teamcode.objects.Extendo;
-import org.firstinspires.ftc.teamcode.objects.Lift;
-import org.firstinspires.ftc.teamcode.objects.Virtual4Bar;
+import org.firstinspires.ftc.teamcode.objects.intake.Claw;
+import org.firstinspires.ftc.teamcode.objects.intake.Extendo;
+import org.firstinspires.ftc.teamcode.objects.intake.Virtual4Bar;
 import org.firstinspires.ftc.teamcode.objects.drive.Chassis;
 import org.firstinspires.ftc.teamcode.robot.AllObjects;
 import org.firstinspires.ftc.teamcode.robot.RobotHardware;

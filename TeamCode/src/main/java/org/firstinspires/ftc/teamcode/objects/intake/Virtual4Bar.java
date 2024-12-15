@@ -1,8 +1,5 @@
-package org.firstinspires.ftc.teamcode.objects;
+package org.firstinspires.ftc.teamcode.objects.intake;
 
-import static org.firstinspires.ftc.teamcode.robot.StaticVariables.telemetry;
-
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.robot.RobotHardware;
@@ -23,12 +20,13 @@ public class Virtual4Bar {
     public enum V4BStates
     {
         INIT,
+        TRANSFER,
         SCANNING,
         PICK_UP,
     }
     private V4BStates state = V4BStates.INIT, lastState = V4BStates.INIT;
 
-    public double InitPos = 0.03, ScanningPos = 0.17, PickupPos = 0.24;
+    public double InitPos = 0.05, ScanningPos = 0.17, PickupPos = 0.24, TransferPos = 0.03;
 
     public void setV4BPos(double pos)
     {
@@ -57,6 +55,9 @@ public class Virtual4Bar {
                 break;
             case SCANNING:
                 targetPosition = ScanningPos;
+                break;
+            case TRANSFER:
+                targetPosition = TransferPos;
                 break;
         }
         setV4BPos(targetPosition);

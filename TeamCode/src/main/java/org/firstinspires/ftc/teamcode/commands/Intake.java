@@ -5,10 +5,10 @@ import static org.firstinspires.ftc.teamcode.commands.Transfer.initiateTransfer;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.objects.Claw;
-import org.firstinspires.ftc.teamcode.objects.Extendo;
-import org.firstinspires.ftc.teamcode.objects.SensorTrio;
-import org.firstinspires.ftc.teamcode.objects.Virtual4Bar;
+import org.firstinspires.ftc.teamcode.objects.intake.Claw;
+import org.firstinspires.ftc.teamcode.objects.intake.Extendo;
+import org.firstinspires.ftc.teamcode.objects.intake.SensorTrio;
+import org.firstinspires.ftc.teamcode.objects.intake.Virtual4Bar;
 import org.firstinspires.ftc.teamcode.robot.AllObjects;
 @Config
 public class Intake {

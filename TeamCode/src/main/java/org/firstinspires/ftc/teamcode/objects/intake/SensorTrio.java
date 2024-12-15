@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.objects;
+package org.firstinspires.ftc.teamcode.objects.intake;
 
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevColorSensorV3;

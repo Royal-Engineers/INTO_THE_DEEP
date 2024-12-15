@@ -12,14 +12,13 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.commands.Commands;
 import org.firstinspires.ftc.teamcode.commands.Transfer;
 import org.firstinspires.ftc.teamcode.control.AutoFunctions;
-import org.firstinspires.ftc.teamcode.objects.Claw;
-import org.firstinspires.ftc.teamcode.objects.Differential;
-import org.firstinspires.ftc.teamcode.objects.Extendo;
-import org.firstinspires.ftc.teamcode.objects.Lift;
-import org.firstinspires.ftc.teamcode.objects.Virtual4Bar;
+import org.firstinspires.ftc.teamcode.objects.intake.Claw;
+import org.firstinspires.ftc.teamcode.objects.outtake.Differential;
+import org.firstinspires.ftc.teamcode.objects.intake.Extendo;
+import org.firstinspires.ftc.teamcode.objects.outtake.Lift;
+import org.firstinspires.ftc.teamcode.objects.intake.Virtual4Bar;
 import org.firstinspires.ftc.teamcode.objects.drive.Chassis;
 import org.firstinspires.ftc.teamcode.robot.AllObjects;
 import org.firstinspires.ftc.teamcode.robot.RobotHardware;
@@ -58,6 +57,7 @@ public class BasketAuto extends OpMode {
         INSTRUCTION_7,
         INSTRUCTION_8,
         INSTRUCTION_9,
+        INSTRUCTION_9_5,
         INSTRUCTION_10,
         INSTRUCTION_11,
         INSTRUCTION_12,
@@ -66,6 +66,7 @@ public class BasketAuto extends OpMode {
         INSTRUCTION_15,
         INSTRUCTION_16,
         INSTRUCTION_17,
+        INSTRUCTION_17_5,
         INSTRUCTION_18,
         INSTRUCTION_19,
         INSTRUCTION_20,
@@ -74,6 +75,7 @@ public class BasketAuto extends OpMode {
         INSTRUCTION_23,
         INSTRUCTION_24,
         INSTRUCTION_25,
+        INSTRUCTION_25_5,
         INSTRUCTION_26,
         INSTRUCTION_27,
         INSTRUCTION_28,
@@ -89,11 +91,11 @@ public class BasketAuto extends OpMode {
     }
 
     public static double x1 = 30, y1 = 35, h1 = 135; // front of the basket
-    public static double x2 = 20, y2 = 40, h2 = 135; // scoring position
-    public static double x3 = 23, y3 = 30, h3 = 166; // sample left
-    public static double x4 = 23, y4 = 30, h4 = 188; // sample center
-    public static double x5 = 45, y5 = 15, h5 = 225; // sample right
-    public static double x6 = 150, y6 = 0, h6 = 90; // ready for parking
+    public static double x2 = 18, y2 = 42, h2 = 135; // scoring position
+    public static double x3 = 27, y3 = 30, h3 = 166.5; // sample left
+    public static double x4 = 27, y4 = 30, h4 = 187.5; // sample center
+    public static double x5 = 45, y5 = 17, h5 = 221; // sample right
+    public static double x6 = 20, y6 = 40, h6 = 0; // ready for parking
     public static double x7 = 150, y7 = -20, h7 = 90; // parking
 
     private AutoInstructions state, nextState;
@@ -137,6 +139,28 @@ public class BasketAuto extends OpMode {
             case WAITING:
                 if (timer.seconds() > waitingTime)
                     state = nextState;
+
+                if (nextState == AutoInstructions.INSTRUCTION_9) {
+                    if (timer.seconds() > 0.5)
+                        targetH = h3 + 4;
+                    else if (timer.seconds() > 1)
+                        targetH = h3 - 4;
+                }
+
+                if (nextState == AutoInstructions.INSTRUCTION_17) {
+                    if (timer.seconds() > 0.5)
+                        targetH = h4 + 4;
+                    else if (timer.seconds() > 1)
+                        targetH = h4 - 4;
+                }
+
+                if (nextState == AutoInstructions.INSTRUCTION_25) {
+                    if (timer.seconds() > 0.5)
+                        targetH = h5 + 4;
+                    else if (timer.seconds() > 1)
+                        targetH = h5 - 4;
+                }
+
                 break;
 
 
@@ -157,8 +181,7 @@ public class BasketAuto extends OpMode {
                 break;
 
             case INSTRUCTION_3:
-                if (!lift.targetReached())
-                    break;
+                if (!lift.targetReached()) break;
 
                 targetX = x2; targetY = y2; targetH = h2;
 
@@ -215,18 +238,28 @@ public class BasketAuto extends OpMode {
 
                 state = AutoInstructions.WAITING;
                 nextState = AutoInstructions.INSTRUCTION_9;
-                waitingTime = 1; timer.reset();
+                waitingTime = 1.5; timer.reset();
                 break;
 
             case INSTRUCTION_9:
                 initiateTransfer = true;
 
-                state = AutoInstructions.WAITING;
-                nextState = AutoInstructions.INSTRUCTION_10;
-                waitingTime = 1.5; timer.reset();
+                state = AutoInstructions.INSTRUCTION_9_5;
+
+                break;
+
+            case INSTRUCTION_9_5:
+
+                targetX = x1; targetY = y1; targetH = h1;
+
+                if (targetReached())
+                    state = AutoInstructions.INSTRUCTION_10;
+
                 break;
 
             case INSTRUCTION_10:
+                if (transfer.getState() != Transfer.TransferStates.DISABLED) break;
+
                 lift.setState(Lift.LiftStates.HIGH_BASKET);
                 differential.setState(Differential.DifferentialStates.BASKET);
 
@@ -234,8 +267,7 @@ public class BasketAuto extends OpMode {
                 break;
 
             case INSTRUCTION_11:
-                if (!lift.targetReached())
-                    break;
+                if (!lift.targetReached()) break;
 
                 targetX = x2; targetY = y2; targetH = h2;
 
@@ -292,18 +324,27 @@ public class BasketAuto extends OpMode {
 
                 state = AutoInstructions.WAITING;
                 nextState = AutoInstructions.INSTRUCTION_17;
-                waitingTime = 1; timer.reset();
+                waitingTime = 1.5; timer.reset();
                 break;
 
             case INSTRUCTION_17:
                 initiateTransfer = true;
 
-                state = AutoInstructions.WAITING;
-                nextState = AutoInstructions.INSTRUCTION_18;
-                waitingTime = 1.5; timer.reset();
+                state = AutoInstructions.INSTRUCTION_17_5;
                 break;
 
+            case INSTRUCTION_17_5:
+                targetX = x1; targetY = y1; targetH = h1;
+
+                if (targetReached())
+                    state = AutoInstructions.INSTRUCTION_18;
+
+                break;
+
+
             case INSTRUCTION_18:
+                if (transfer.getState() != Transfer.TransferStates.DISABLED) break;
+
                 lift.setState(Lift.LiftStates.HIGH_BASKET);
                 differential.setState(Differential.DifferentialStates.BASKET);
 
@@ -311,8 +352,7 @@ public class BasketAuto extends OpMode {
                 break;
 
             case INSTRUCTION_19:
-                if (!lift.targetReached())
-                    break;
+                if (!lift.targetReached()) break;
 
                 targetX = x2; targetY = y2; targetH = h2;
 
@@ -369,18 +409,26 @@ public class BasketAuto extends OpMode {
 
                 state = AutoInstructions.WAITING;
                 nextState = AutoInstructions.INSTRUCTION_25;
-                waitingTime = 1; timer.reset();
+                waitingTime = 1.5; timer.reset();
                 break;
 
             case INSTRUCTION_25:
                 initiateTransfer = true;
 
-                state = AutoInstructions.WAITING;
-                nextState = AutoInstructions.INSTRUCTION_26;
-                waitingTime = 1.5; timer.reset();
+                state = AutoInstructions.INSTRUCTION_25_5;
+                break;
+
+            case INSTRUCTION_25_5:
+                targetX = x1; targetY = y1; targetH = h1;
+
+                if (targetReached())
+                    state = AutoInstructions.INSTRUCTION_26;
+
                 break;
 
             case INSTRUCTION_26:
+                if (transfer.getState() != Transfer.TransferStates.DISABLED) break;
+
                 targetX = x1; targetY = y1; targetH = h1;
 
                 if (targetReached())
@@ -396,8 +444,7 @@ public class BasketAuto extends OpMode {
                 break;
 
             case INSTRUCTION_28:
-                if (!lift.targetReached())
-                    break;
+                if (!lift.targetReached()) break;
 
                 targetX = x2; targetY = y2; targetH = h2;
 
@@ -422,6 +469,20 @@ public class BasketAuto extends OpMode {
                 state = AutoInstructions.WAITING;
                 nextState = AutoInstructions.INSTRUCTION_31;
                 waitingTime = 0.5; timer.reset();
+                break;
+
+            case INSTRUCTION_31:
+                targetX = x6; targetY = y6; targetH = h6;
+
+                if (targetReached()) {
+                    state = AutoInstructions.INSTRUCTION_32;
+                }
+
+                break;
+
+            case INSTRUCTION_32:
+                extendo.setPosition(-5);
+
                 break;
 
         }

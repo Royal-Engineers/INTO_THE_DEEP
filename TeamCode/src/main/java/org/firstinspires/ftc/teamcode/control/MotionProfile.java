@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode.control;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class MotionProfile {
-    private ElapsedTime timer;
+    private ElapsedTime timer = new ElapsedTime();
 
     private double distance;
     private double max_velocity, max_acceleration, elapsed_time;
@@ -32,8 +32,6 @@ public class MotionProfile {
         cruise_time = cruise_distance / this.max_velocity;
 
         entire_time = acceleration_time + cruise_time + decceleraion_time;
-
-        timer = new ElapsedTime();
         timer.reset();
     }
     public void update() {
@@ -67,4 +65,5 @@ public class MotionProfile {
     public double getPosition() {return position;}
     public double getVelocity() {return velocity;}
     public double getAcceleration() {return acceleration;}
+    public double getMaxVelocity() {return max_velocity;}
 }
