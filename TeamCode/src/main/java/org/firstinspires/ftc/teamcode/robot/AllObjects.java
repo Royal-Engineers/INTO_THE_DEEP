@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.robot;
 
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.telemetry;
 
+import org.firstinspires.ftc.teamcode.objects.Climb;
 import org.firstinspires.ftc.teamcode.objects.drive.Chassis;
 import org.firstinspires.ftc.teamcode.objects.intake.Claw;
 import org.firstinspires.ftc.teamcode.objects.outtake.Differential;
@@ -18,6 +19,7 @@ public class AllObjects {
     public Claw claw;
     public Virtual4Bar v4b;
     public SensorTrio sensorTrio;
+    public Climb climb;
 
     public void init(RobotHardware robot) {
         chassis = new Chassis(robot);
@@ -26,7 +28,8 @@ public class AllObjects {
         differential = new Differential(robot);
         v4b = new Virtual4Bar(robot);
         claw = new Claw(robot);
-        sensorTrio = new SensorTrio(robot.distanceSensorLeft, robot.colorSensorCenter, robot.distanceSensorRight);
+        sensorTrio = new SensorTrio(robot);
+        climb = new Climb(robot);
     }
 
     public void update() {
@@ -36,6 +39,7 @@ public class AllObjects {
         differential.update();
         v4b.update();
         claw.Update();
+        climb.update();
 
         telemetry.addData("Pozitie Extendo", extendo.motor.getCurrentPosition());
     }

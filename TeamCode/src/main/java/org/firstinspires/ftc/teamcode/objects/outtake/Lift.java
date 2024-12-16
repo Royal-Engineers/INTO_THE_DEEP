@@ -21,7 +21,7 @@ public class Lift {
     }
     private LiftStates state, lastState;
 
-    private final int INIT = 2;
+    private final int INIT = 0;
     private final int LOW_BASKET = 300;
     private final int HIGH_BASKET = 680;
     private final int LOW_CHAMBER = 35;
@@ -58,6 +58,11 @@ public class Lift {
 
     public void update() {
 
+        if (state == LiftStates.INIT && motorUp.getCurrentPosition() < 10) {
+            motorUp.setPower(0);
+            motorDown.setPower(0);
+        }
+
         if (lastState != state) {
             switch (state) {
                 case INIT:
@@ -76,8 +81,8 @@ public class Lift {
 
                     position = LOW_BASKET;
 
-                    motorUp.setPower(0.8);
-                    motorDown.setPower(0.8);
+                    motorUp.setPower(1);
+                    motorDown.setPower(1);
                     break;
 
                 case HIGH_BASKET:
@@ -86,8 +91,8 @@ public class Lift {
 
                     position = HIGH_BASKET;
 
-                    motorUp.setPower(0.8);
-                    motorDown.setPower(0.8);
+                    motorUp.setPower(1);
+                    motorDown.setPower(1);
                     break;
 
                 case LOW_CHAMBER:
@@ -96,8 +101,8 @@ public class Lift {
 
                     position = LOW_CHAMBER;
 
-                    motorUp.setPower(0.8);
-                    motorDown.setPower(0.8);
+                    motorUp.setPower(1);
+                    motorDown.setPower(1);
                     break;
 
                 case HIGH_CHAMBER:
@@ -106,8 +111,8 @@ public class Lift {
 
                     position = HIGH_CHAMBER;
 
-                    motorUp.setPower(0.8);
-                    motorDown.setPower(0.8);
+                    motorUp.setPower(1);
+                    motorDown.setPower(1);
                     break;
 
                 case LOW_CHAMBER_RELEASE:

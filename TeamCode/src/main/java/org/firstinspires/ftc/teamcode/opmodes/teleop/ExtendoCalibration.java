@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.commands.Commands;
 import org.firstinspires.ftc.teamcode.control.MotionProfile;
+import org.firstinspires.ftc.teamcode.control.MotionProfileDecceleration;
 import org.firstinspires.ftc.teamcode.objects.intake.Claw;
 import org.firstinspires.ftc.teamcode.objects.intake.Virtual4Bar;
 import org.firstinspires.ftc.teamcode.objects.outtake.Differential;
@@ -20,15 +21,15 @@ import org.firstinspires.ftc.teamcode.robot.StaticVariables;
 public class ExtendoCalibration extends OpMode {
     private RobotHardware robot;
     private DcMotor motor;
-    private MotionProfile motionProfile;
+    private MotionProfileDecceleration motionProfile;
 
     private Differential differential;
     private Claw claw;
     private Virtual4Bar v4b;
 
-    public static double Kp = 0, Kv = 1, Ka = 0, A = 1, maxVelocity = 500;
+    public static double Kp = 0, Kv = 0.8, Ka = 0.32, A = 0.2, maxVelocity = 6000;
     private double maxAcceleration = maxVelocity / A;
-    public static int targetPosition = 0, tolerance = 15;
+    public static int targetPosition = 0, tolerance = 30;
 
 
     private int currentPosition = 0, lastTargetPosition = 0, startingPosition = 0;
@@ -50,7 +51,7 @@ public class ExtendoCalibration extends OpMode {
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        motionProfile = new MotionProfile();
+        motionProfile = new MotionProfileDecceleration();
     }
 
     @Override

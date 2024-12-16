@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.objects.intake;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.control.MotionProfileDecceleration;
 import org.firstinspires.ftc.teamcode.robot.RobotHardware;
 @Config
 public class Extendo {
@@ -20,13 +21,17 @@ public class Extendo {
 
     private final int INIT = 0;
     private final int EXTENDED = 280;
-    private final int TRANSFER = 50;
-    private final int TRANSFER_INTERMEDIATE = 60;
+    public static int TRANSFER = 50;
     public static int BASKET_AUTO_LEFT = 280;
     public static int BASKET_AUTO_CENTER = 280;
     public static int BASKET_AUTO_RIGHT = 280;
 
-    private double tolerance = 5;
+    private double tolerance = 50;
+
+    private MotionProfileDecceleration motionProfile;
+    private int targetPosition, lastTargetPosition, currentPosition, startingPosition, direction;
+    public static double Kp = 0, Kv = 0.8, Ka = 0.32, A = 0.2, maxVelocity = 6000;
+    private double maxAcceleration = maxVelocity / A;
 
     public Extendo(RobotHardware robot) {
         motor = robot.motorExtendo;
@@ -39,6 +44,16 @@ public class Extendo {
         motor.setTargetPosition(0);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setPower(1);
+
+        /*motor = robot.motorExtendo;
+        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        state = ExtendoStates.INIT;
+        lastState = ExtendoStates.INIT;
+
+        motionProfile = new MotionProfileDecceleration();*/
     }
 
     public void update() {
@@ -52,19 +67,15 @@ public class Extendo {
 
                 case EXTENDED:
                     motor.setTargetPosition(EXTENDED);
-                    motor.setPower(0.7);
+                    motor.setPower(0.6);
 
                     break;
 
                 case TRANSFER:
                     motor.setTargetPosition(TRANSFER);
-                    motor.setPower(0.5);
+                    motor.setPower(0.6);
 
                     break;
-
-                case TRANSFER_INTERMEDIATE:
-                    motor.setTargetPosition(TRANSFER_INTERMEDIATE);
-                    motor.setPower(1);
 
                 case BASKET_AUTO_LEFT:
                     motor.setTargetPosition(BASKET_AUTO_LEFT);
@@ -84,13 +95,27 @@ public class Extendo {
 
                     break;
             }
+
+            /*switch (state) {
+                case INIT:
+                    targetPosition = INIT;
+                    break;
+
+                case TRANSFER:
+                    targetPosition = TRANSFER;
+                    break;
+
+                case EXTENDED:
+                    targetPosition = EXTENDED;
+                    break;
+            }*/
         }
 
         lastState = state;
     }
 
     public boolean targetReached() {
-        return(Math.abs(motor.getCurrentPosition() - motor.getTargetPosition()) < tolerance);
+        return(Math.abs(targetPosition - currentPosition) < tolerance);
     }
 
     public void setState(ExtendoStates state) {
@@ -98,6 +123,8 @@ public class Extendo {
     }
 
     public void setPosition(int position) {
+        //targetPosition = position;
+
         motor.setTargetPosition(position);
         motor.setPower(1);
     }

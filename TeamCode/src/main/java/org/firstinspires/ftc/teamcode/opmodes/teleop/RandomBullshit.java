@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.opmodes.teleop;
 
 import static org.firstinspires.ftc.teamcode.robot.StaticVariables.dashboardTelemetry;
+import static org.firstinspires.ftc.teamcode.robot.StaticVariables.gamepad;
+import static org.firstinspires.ftc.teamcode.robot.StaticVariables.lastgamepad;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -8,15 +10,16 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.control.MotionProfile;
+import org.firstinspires.ftc.teamcode.objects.Climb;
+import org.firstinspires.ftc.teamcode.objects.intake.Claw;
+import org.firstinspires.ftc.teamcode.objects.intake.Virtual4Bar;
+import org.firstinspires.ftc.teamcode.objects.outtake.Differential;
 import org.firstinspires.ftc.teamcode.robot.RobotHardware;
 import org.firstinspires.ftc.teamcode.robot.StaticVariables;
 @TeleOp (name = "RandomBullshit")
 public class RandomBullshit extends OpMode {
     private RobotHardware robot;
-    private DcMotor motor;
-
-    private ElapsedTime timer;
-    private double maxx = 0;
+    private Climb climb;
 
     @Override
     public void init() {
@@ -25,30 +28,20 @@ public class RandomBullshit extends OpMode {
         robot = new RobotHardware();
         robot.init();
 
-        motor = robot.motorExtendo;
-        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        timer = new ElapsedTime();
-    }
-
-    @Override
-    public void start() {
-        timer.reset();
+        climb = new Climb(robot);
     }
 
     @Override
     public void loop() {
-        if (motor.getCurrentPosition() < 1500)
-            motor.setPower(1);
-        else {
-            motor.setPower(0);
-            maxx = Math.max(motor.getCurrentPosition()/timer.seconds(), maxx);
+        if (gamepad.dpad_up && !lastgamepad.dpad_up) {
+            climb.setState(Climb.ClimbStates.ST_STAGE);
         }
 
-        telemetry.addData("Maximum Speed", maxx);
+        if (gamepad.dpad_down && !lastgamepad.dpad_down) {
+            climb.setState(Climb.ClimbStates.INIT);
+        }
 
+        climb.update();
 
         robot.update();
         telemetry.update();

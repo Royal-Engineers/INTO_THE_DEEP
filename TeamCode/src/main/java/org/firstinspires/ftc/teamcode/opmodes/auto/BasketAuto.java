@@ -15,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.commands.Transfer;
 import org.firstinspires.ftc.teamcode.control.AutoFunctions;
 import org.firstinspires.ftc.teamcode.objects.intake.Claw;
+import org.firstinspires.ftc.teamcode.objects.intake.SensorTrio;
 import org.firstinspires.ftc.teamcode.objects.outtake.Differential;
 import org.firstinspires.ftc.teamcode.objects.intake.Extendo;
 import org.firstinspires.ftc.teamcode.objects.outtake.Lift;
@@ -39,6 +40,7 @@ public class BasketAuto extends OpMode {
     private Extendo extendo;
     private Virtual4Bar v4b;
     private Claw claw;
+    private SensorTrio sensorTrio;
 
     private Transfer transfer;
 
@@ -92,11 +94,13 @@ public class BasketAuto extends OpMode {
 
     public static double x1 = 30, y1 = 35, h1 = 135; // front of the basket
     public static double x2 = 18, y2 = 42, h2 = 135; // scoring position
-    public static double x3 = 27, y3 = 30, h3 = 166.5; // sample left
-    public static double x4 = 27, y4 = 30, h4 = 187.5; // sample center
-    public static double x5 = 45, y5 = 17, h5 = 221; // sample right
+    public static double x3 = 27, y3 = 28, h3 = 166.5; // sample left
+    public static double x4 = 25, y4 = 28, h4 = 187.5; // sample center
+    public static double x5 = 43, y5 = 13, h5 = 221; // sample right
     public static double x6 = 20, y6 = 40, h6 = 0; // ready for parking
     public static double x7 = 150, y7 = -20, h7 = 90; // parking
+
+    public static double headingIncrease = 0.1;
 
     private AutoInstructions state, nextState;
     private ElapsedTime timer = new ElapsedTime();
@@ -118,6 +122,7 @@ public class BasketAuto extends OpMode {
         extendo = objects.extendo;
         v4b = objects.v4b;
         claw = objects.claw;
+        sensorTrio = objects.sensorTrio;
 
         operations = new AutoFunctions();
         transfer = new Transfer(objects);
@@ -137,29 +142,14 @@ public class BasketAuto extends OpMode {
 
         switch (state) {
             case WAITING:
-                if (timer.seconds() > waitingTime)
+                if (nextState == AutoInstructions.INSTRUCTION_8 || nextState == AutoInstructions.INSTRUCTION_16 || nextState == AutoInstructions.INSTRUCTION_24) {
+                    if (!sensorTrio.detectedSample())
+                        targetY += headingIncrease;
+                    else
+                        state = nextState;
+                }
+                else if (timer.seconds() > waitingTime)
                     state = nextState;
-
-                if (nextState == AutoInstructions.INSTRUCTION_9) {
-                    if (timer.seconds() > 0.5)
-                        targetH = h3 + 4;
-                    else if (timer.seconds() > 1)
-                        targetH = h3 - 4;
-                }
-
-                if (nextState == AutoInstructions.INSTRUCTION_17) {
-                    if (timer.seconds() > 0.5)
-                        targetH = h4 + 4;
-                    else if (timer.seconds() > 1)
-                        targetH = h4 - 4;
-                }
-
-                if (nextState == AutoInstructions.INSTRUCTION_25) {
-                    if (timer.seconds() > 0.5)
-                        targetH = h5 + 4;
-                    else if (timer.seconds() > 1)
-                        targetH = h5 - 4;
-                }
 
                 break;
 
@@ -218,7 +208,7 @@ public class BasketAuto extends OpMode {
                 break;
 
             case INSTRUCTION_7:
-                extendo.setState(Extendo.ExtendoStates.BASKET_AUTO_LEFT);
+                extendo.setState(Extendo.ExtendoStates.EXTENDED);
                 v4b.setState(Virtual4Bar.V4BStates.SCANNING);
                 claw.setWristState(Claw.WristState.SCAN);
                 claw.setClawRotation(0.33);
@@ -226,7 +216,6 @@ public class BasketAuto extends OpMode {
                 if (Math.abs(extendo.motor.getCurrentPosition() - extendo.BASKET_AUTO_LEFT) < 10) {
                     state = AutoInstructions.WAITING;
                     nextState = AutoInstructions.INSTRUCTION_8;
-                    waitingTime = 0.5; timer.reset();
                 }
 
                 break;
@@ -304,7 +293,7 @@ public class BasketAuto extends OpMode {
                 break;
 
             case INSTRUCTION_15:
-                extendo.setState(Extendo.ExtendoStates.BASKET_AUTO_CENTER);
+                extendo.setState(Extendo.ExtendoStates.EXTENDED);
                 v4b.setState(Virtual4Bar.V4BStates.SCANNING);
                 claw.setWristState(Claw.WristState.SCAN);
                 claw.setClawRotation(0.28);
@@ -312,7 +301,6 @@ public class BasketAuto extends OpMode {
                 if (Math.abs(extendo.motor.getCurrentPosition() - extendo.BASKET_AUTO_CENTER) < 10) {
                     state = AutoInstructions.WAITING;
                     nextState = AutoInstructions.INSTRUCTION_16;
-                    waitingTime = 0.5; timer.reset();
                 }
 
                 break;
@@ -389,7 +377,7 @@ public class BasketAuto extends OpMode {
                 break;
 
             case INSTRUCTION_23:
-                extendo.setState(Extendo.ExtendoStates.BASKET_AUTO_RIGHT);
+                extendo.setState(Extendo.ExtendoStates.EXTENDED);
                 v4b.setState(Virtual4Bar.V4BStates.SCANNING);
                 claw.setWristState(Claw.WristState.SCAN);
                 claw.setClawRotation(0.1);
@@ -397,7 +385,6 @@ public class BasketAuto extends OpMode {
                 if (Math.abs(extendo.motor.getCurrentPosition() - extendo.BASKET_AUTO_RIGHT) < 10) {
                     state = AutoInstructions.WAITING;
                     nextState = AutoInstructions.INSTRUCTION_24;
-                    waitingTime = 0.5; timer.reset();
                 }
 
                 break;

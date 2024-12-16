@@ -10,6 +10,7 @@ import static org.firstinspires.ftc.teamcode.robot.StaticVariables.telemetry;
 
 import com.acmerobotics.dashboard.config.Config;
 
+import org.firstinspires.ftc.teamcode.objects.Climb;
 import org.firstinspires.ftc.teamcode.objects.drive.Chassis;
 import org.firstinspires.ftc.teamcode.objects.intake.Claw;
 import org.firstinspires.ftc.teamcode.objects.outtake.Differential;
@@ -29,6 +30,7 @@ public class Commands {
     public Differential differential;
     public Virtual4Bar v4b;
     public Claw claw;
+    public Climb climb;
 
     public Transfer transfer;
     public Intake intake;
@@ -49,6 +51,7 @@ public class Commands {
         differential = objects.differential;
         v4b = objects.v4b;
         claw = objects.claw;
+        climb = objects.climb;
 
         transfer = new Transfer(objects);
         intake = new Intake(objects);
@@ -109,8 +112,6 @@ public class Commands {
             outtake.setState(Outtake.OuttakeStates.READY_TO_RELEASE);
         }
 
-
-
         //DIFFERENTIAL
 
         if (gamepad.left_stick_button && !lastgamepad.left_stick_button) {
@@ -170,6 +171,20 @@ public class Commands {
                 intakeClawRotation = 0.57;
 
             claw.setClawRotation(intakeClawRotation);
+        }
+
+        // CLIMB
+
+        if (gamepad.dpad_up && !lastgamepad.dpad_up) {
+            climb.setState(Climb.ClimbStates.ST_STAGE);
+            differential.setState(Differential.DifferentialStates.FENCE);
+            v4b.setState(Virtual4Bar.V4BStates.SCANNING);
+            claw.setWristState(Claw.WristState.SCAN);
+            claw.setClawRotation(0.03);
+        }
+
+        if (gamepad.dpad_down && !lastgamepad.dpad_down) {
+            climb.setState(Climb.ClimbStates.INIT);
         }
 
         telemetry.addData("Target outtake", outtakePosition);
