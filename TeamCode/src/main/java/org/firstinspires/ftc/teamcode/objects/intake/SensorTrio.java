@@ -27,7 +27,7 @@ public class SensorTrio {
     }
 
     public boolean detectedSample() {
-        if (sensorCenter.red() > 90 && sensorLeft.getDistance(DistanceUnit.MM) < 115 && sensorRight.getDistance(DistanceUnit.MM) <115)
+        if (sensorCenter.red() > 90)
             return true;
         else
             return false;

@@ -25,7 +25,7 @@ public class PositionsAuto extends OpMode {
     private Virtual4Bar v4b;
     private Claw claw;
 
-    public static double targetX = 0, targetY = 0, targetH = 90, maximumSpeed = 1;
+    public static double targetX = 0, targetY = 0, targetH = 90, maximumSpeed = 1, rotationPosition = 0.03;
     private double lastTargetX = -1, lastTargetY = -1, lastTargetH = -1;
 
     public static int extendoPosition = 0;
@@ -64,6 +64,7 @@ public class PositionsAuto extends OpMode {
 
         v4b.setState(Virtual4Bar.V4BStates.SCANNING);
         claw.setWristState(Claw.WristState.SCAN);
+        claw.setClawRotation(rotationPosition);
 
         objects.update();
         robot.update();

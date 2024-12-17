@@ -15,7 +15,8 @@ public class Differential {
         INTERMEDIATE,
         BASKET,
         FENCE,
-        SPECIMEN_RELEASE;
+        SPECIMEN_RELEASE,
+        PARKING_AUTO;
     }
 
     public DifferentialStates state, lastState;
@@ -29,11 +30,13 @@ public class Differential {
     private final double LINEAR_ANGLE_INTERMEDIATE = 0.13;
     private final double LINEAR_ANGLE_BASKET = 0.45;
     private final double LINEAR_ANGLE_FENCE = 0.625;
+    private final double LINEAR_ANGLE_PARKING_AUTO = 0.45;
 
     private final double ROTATION_ANGLE_INIT = 0;
     private final double ROTATION_ANGLE_INTERMEDIATE = 0;
     private final double ROTATION_ANGLE_FORWARD = 0.28;
     private final double ROTATION_ANGLE_REVERSE = -0.28;
+    private final double ROTATION_ANGLE_PARKING_AUTO = 0;
 
     private final double CLAW_OPEN = 0.45;
     private final double CLAW_TRANSFER = 0.6;
@@ -98,6 +101,12 @@ public class Differential {
                 case SPECIMEN_RELEASE:
                     linearAngle = LINEAR_ANGLE_INIT;
                     rotationAngle = ROTATION_ANGLE_FORWARD;
+
+                    break;
+
+                case PARKING_AUTO:
+                    linearAngle = LINEAR_ANGLE_PARKING_AUTO;
+                    rotationAngle = ROTATION_ANGLE_PARKING_AUTO;
 
                     break;
             }

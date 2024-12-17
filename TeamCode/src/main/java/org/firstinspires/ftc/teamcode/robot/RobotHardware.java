@@ -18,6 +18,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -99,10 +100,21 @@ public class RobotHardware {
 
     }
 
+    private ElapsedTime timer = new ElapsedTime();
+    private int cnt = 0, lastcnt = 0;
+
     public void update() {
         for (LynxModule hub : allHubs) {
             hub.clearBulkCache();
         }
+
+        if (timer.seconds() >= 1) {
+            lastcnt = cnt;
+
+            cnt = 0; timer.reset();
+        }
+
+        cnt++;
 
         odometry.update();
 
@@ -118,6 +130,9 @@ public class RobotHardware {
         telemetry.addData("X:", robotX);
         telemetry.addData("Y:", robotY);
         telemetry.addData("H:", robotH);
+
+        telemetry.addLine("");
+        telemetry.addData("FPS:", lastcnt);
     }
 
 }
